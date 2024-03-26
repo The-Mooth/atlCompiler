@@ -1,0 +1,35 @@
+
+
+#ifdef MAIN
+    #define EXTERN
+    #define init(value) = value
+#endif
+#ifndef MAIN
+    #define EXTERN extern 
+    #define init(value)
+#endif 
+
+
+//io
+extern FILE *yyin;
+extern FILE *yyout;
+EXTERN FILE *ASMoutput;
+
+//switches
+EXTERN int debug init(FALSE);
+EXTERN int errors_found init(FALSE);
+
+//scanner variables
+EXTERN int line_no init(1);
+
+//symbol table variables
+EXTERN int cur_scope init(-1);
+
+EXTERN type_ptr int_ptr;
+EXTERN type_ptr bool_ptr;
+EXTERN type_ptr string_ptr;
+EXTERN type_ptr err_ptr;
+
+EXTERN id_ptr cur_procedure;
+EXTERN char* cur_procedure_name;
+EXTERN int proc_num init(0);
