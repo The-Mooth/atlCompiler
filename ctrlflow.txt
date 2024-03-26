@@ -1,5 +1,6 @@
 
- //this is tentative. I want to follow this structure
+ this is tentative. I want to follow this structure
+
         input file
          |              -sysargs
         main.c          -process sysargs and set up streams
@@ -9,7 +10,24 @@
         parse.c         -uses grammer rules to process tokens (gen from .y file)
          |
         
-        
+
+
+
+Below is the organization of structures, from smallest to largest.
+
+for the symbol table:
+
+       //for simple ids: string, int, or array
+       -type_desc: stores information about the type of id.
+       -type_desc_ptr: points to type_desc
+       
+       //for all ids: functions, params, constants, etc.
+       -id_union: union to save space dependant on the type of id.
+       -id_info: stores id type, and id_union.
+
+       -id_info_ptr: points to id_info
+
+for the syntax tree:
         
         
 
@@ -17,4 +35,9 @@
 
 //notes:
 
-generated files: parse.c, scan.c, y.tab.h, testcan(?)
+generated files: 
+
+scanner.l:    scan.c, 
+              y.tab.h,
+
+atl.y:        parse.c
