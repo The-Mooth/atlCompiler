@@ -1,5 +1,8 @@
 //code for type descriptors
 
+#ifndef SYMBOL_TABLE
+#define SYMBOL_TABLE
+
 //declaring typedef for pointers allows me to call struct type_desc* 
 //without the struct
 typedef struct type_desc* type_desc_ptr;
@@ -8,9 +11,10 @@ typedef enum type_kind {
   tk_SCALAR, 
   tk_ARRAY, 
   tk_STRING
-    }type_kind;
+  } type_kind;
+  
 
-struct type_desc {
+typedef struct type_desc {
   //fixed
   type_kind kind;
   int size;
@@ -19,7 +23,7 @@ struct type_desc {
   int low;
   int high;
   type_desc_ptr el_type;
-}type_desc;
+} type_desc;
 
 
 
@@ -35,26 +39,36 @@ typedef enum id_kind {
   ik_CONST //value
   }id_kind;
 
-union id_union {
+typedef union id_union {
 
-    struct {
+  //for functions and procedures
+  //procedures are void functions
+  struct {
+    int param_size;
+    //id_info_ptr param_list;
+  } pf;
 
-    };
+  union {
+    int i_val;
+    char* s_val;
+  } val;
 
-    struct {
-
-    };
 } id_union;
 
-struct id_info {
+typedef struct id_info {
   //universals
   char* name;
   id_kind kind;
   //if function, the type is the return type
   type_desc_ptr type;
-  //if function, id_list is parameters
+  //if function, id_list is 1st parameter
+  //if parameter, id_list is next parameter
   id_info_ptr id_list;
 
-}id_info;
+  id_union u;
+
+} id_info;
 
 typedef struct id_info* id_info_ptr;
+
+#endif

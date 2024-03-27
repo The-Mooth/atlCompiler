@@ -27,6 +27,7 @@ for the symbol table:
 
        -id_info_ptr: points to id_info
 
+
 for the syntax tree:
         
         
