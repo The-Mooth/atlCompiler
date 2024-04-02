@@ -38,13 +38,25 @@ int main(int argc, char** argv)
         fprintf (stderr, "usage: %s [-d] [-v] [-o file] file\n", argv[0]);
         exit(1);
     }
+    char* src_name = argv[optind];
 
-    src_name = argv[optind];
+    //get contents of source file
+    yyin = fopen(src_name, "r");
+
+
+    if (!asm_output) {
+      asm_output == "atl.out";
+    } 
+
+    yyout = fopen(asm_output, "w");
+
+
+    yyparse();
+    
 
 
 
   }
-
 
 
   return 0;

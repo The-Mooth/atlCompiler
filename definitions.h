@@ -15,3 +15,9 @@
 //structures
 
 //function prototypes
+
+  //parser.c
+  int yyparse(void);
+
+  
+

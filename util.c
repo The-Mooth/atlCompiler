@@ -10,5 +10,5 @@ void debug_printf(char* line, ...)
     va_start(args, line); 
     vprintf(line, args);
     va_end(args);  
-    }
+    };
 }

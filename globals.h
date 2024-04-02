@@ -14,9 +14,9 @@
 EXTERN char* src_name;
 
 //io
-extern FILE *yyin;
-extern FILE *yyout;
-EXTERN FILE *ASMoutput;
+extern FILE* yyin;
+extern FILE* yyout;
+EXTERN FILE* asm_output;
 
 //switches
 EXTERN int debug init(FALSE);
