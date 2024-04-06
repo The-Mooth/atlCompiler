@@ -3,8 +3,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#include "symbol_structs.h"
 #include "symbol_table.h"
 #include "syntax_tree.h"
+#include "kv_tree.h"
+
 
 //constants and prototypes. Doesn't require EXTERN, as they reference operations and not values
 
@@ -19,5 +22,6 @@
   //parser.c
   int yyparse(void);
 
-  
+  //util.c
+  void debug_printf(char* line, ...); 
 

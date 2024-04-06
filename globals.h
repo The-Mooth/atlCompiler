@@ -27,7 +27,9 @@ EXTERN int errors_found init(FALSE);
 EXTERN int line_no init(1);
 
 //symbol table variables
+//max scope is for indexing. The -1 scope will be for language reserved symbols/types, like int and string.
 EXTERN int cur_scope init(-1);
+EXTERN int max_scope init(15);
 
 EXTERN type_desc_ptr int_ptr;
 EXTERN type_desc_ptr bool_ptr;

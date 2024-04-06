@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     switch(opt) 
     {
       case 'd':
-        
+        debug = TRUE;
 
 
       case 'v':
@@ -41,18 +41,33 @@ int main(int argc, char** argv)
     char* src_name = argv[optind];
 
     //get contents of source file
+    debug_printf("opening input file");
+
     yyin = fopen(src_name, "r");
+    if (yyin == NULL) {
+      perror("could not open input file");
+      exit(1);
+    }
 
 
     if (!asm_output) {
       asm_output == "atl.out";
     } 
 
+    debug_printf("executable name = %s", asm_output);
+
     yyout = fopen(asm_output, "w");
+    if (yyout == NULL) {
+      perror("could not open output file");
+      exit(1);
+    }
 
-
+    debug_printf("calling parser");
     yyparse();
     
+    //close files
+    fclose(yyin);
+    fclose(yyout);
 
 
 
