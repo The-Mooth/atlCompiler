@@ -1,8 +1,5 @@
 //code for type descriptors
 
-#ifndef SYMBOL_STRUCTS
-#define SYMBOL_STRUCTS
-
 //declaring typedef for pointers allows me to call struct type_desc* 
 //without the struct
 typedef struct type_desc* type_desc_ptr;
@@ -22,7 +19,7 @@ typedef struct type_desc {
   //for arrays only
   int low;
   int high;
-  type_desc_ptr el_type;
+  type_desc_ptr arr_type;
 } type_desc;
 
 
@@ -70,5 +67,3 @@ typedef struct id_info {
 } id_info;
 
 typedef struct id_info* id_info_ptr;
-
-#endif
