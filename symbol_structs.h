@@ -36,12 +36,15 @@ typedef enum id_kind {
   ik_CONST //value
   }id_kind;
 
+//union accounts for id_kind
 typedef union id_union {
 
-  //for functions and procedures
-  //procedures are void functions
+  //for functions, procedures, and params
+  //procedures are just void functions
   struct {
+
     int param_size;
+
     //id_info_ptr param_list;
   } pf;
 
@@ -50,14 +53,19 @@ typedef union id_union {
     char* s_val;
   } val;
 
+  struct {
+    int level;
+    int offset;
+  } var;
+
 } id_union;
 
 typedef struct id_info {
   //universals
   char* name;
-  id_kind kind;
+  id_kind id;
   //if function, the type is the return type
-  type_desc_ptr type;
+  type_desc_ptr desc;
   //if function, id_list is 1st parameter
   //if parameter, id_list is next parameter
   id_info_ptr id_list;

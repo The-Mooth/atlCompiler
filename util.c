@@ -12,3 +12,10 @@ void debug_printf(char* line, ...)
     va_end(args);
     };
 }
+
+
+void gen_error(char* err_msg) {
+
+  
+
+}

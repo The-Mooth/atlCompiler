@@ -22,7 +22,11 @@
 
   //symbol_structs.c
   type_desc_ptr make_type_desc(type_kind tk_kind, int size, int low, int high, type_desc_ptr arr_type);
+  //trying an overload function using precompilation?
+  //likely poor practice
   #define make_type_simple(type_kind) make_type_desc(type_kind tk_kind, 1, 0, 1, null);
+  id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, ...);
+
   //parser.c
   int yyparse(void);
 
