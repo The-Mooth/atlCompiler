@@ -15,21 +15,25 @@
 #define FALSE 0
 #define TRUE 1
 
-//structure prototypes will be in the .h files for now.
-//TODO?: restructure header files to not use so many globals
+//structure prototypes will be in the respective .h files for now.
+//TODO?: restructure header files to not use so many globals?
 
 //function prototypes
 
   //symbol_structs.c
   type_desc_ptr make_type_desc(type_kind tk_kind, int size, int low, int high, type_desc_ptr arr_type);
-  //trying an overload function using precompilation?
-  //likely poor practice
+  //trying an overload function using precompilation
+  //likely poor practice?
   #define make_type_simple(type_kind) make_type_desc(type_kind tk_kind, 1, 0, 1, null);
   id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, ...);
 
   //parser.c
   int yyparse(void);
 
+  //scanner.c
+  int yylex(void);
+
   //util.c
   void debug_printf(char* line, ...); 
+  void gen_error();
 

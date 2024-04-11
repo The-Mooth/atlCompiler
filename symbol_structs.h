@@ -22,8 +22,6 @@ typedef struct type_desc {
   type_desc_ptr arr_type;
 } type_desc;
 
-
-
 //code for id information
 
 typedef enum id_kind {
@@ -42,11 +40,13 @@ typedef union id_union {
   //for functions, procedures, and params
   //procedures are just void functions
   struct {
-
     int param_size;
-
-    //id_info_ptr param_list;
+    //return address?? not sure yet
   } pf;
+
+  struct {
+    int is_val;
+  }param;
 
   union {
     int i_val;
@@ -68,6 +68,11 @@ typedef struct id_info {
   type_desc_ptr desc;
   //if function, id_list is 1st parameter
   //if parameter, id_list is next parameter
+  //if var declaration, id_list is next var declared on line
+  //ex: int foo, bar, fizz
+  //if id kind ik_list, id_list is 1st var on list
+  //if type or const(?), it's null
+  //unless I decide to do multiple type declarations
   id_info_ptr id_list;
 
   id_union u;

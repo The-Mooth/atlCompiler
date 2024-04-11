@@ -1,6 +1,7 @@
 #include "definitions.h"
 #include "globals.h"
 
+//includes necessary?? idk yet
 
 type_desc_ptr make_type_desc(type_kind tk_kind, int size, int low, int high, type_desc_ptr arr_type) {
 
@@ -22,11 +23,11 @@ type_desc_ptr make_type_desc(type_kind tk_kind, int size, int low, int high, typ
   return new_tdp;
 }
 
-//hopefully, this will be self documenting
+//hopefully, this will be self documenting.
 //to find the correct input for this function,
 //go to the switch, and find the input order
 //of the variable args for your id_kind
-id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, ...){
+id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr id_list, ...){
 
   //init and populate universal parameters
   id_info_ptr new_ptr = malloc(sizeof(id_info));
@@ -34,10 +35,11 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, ...){
   new_ptr->name = name;
   new_ptr->id = id;
   new_ptr->desc = desc;
+  new_ptr->id_list = id_list;
   
   //using va_args, populate specific fields
   va_list args;
-  va_start(args, desc);
+  va_start(args, id_list);
   switch(id){
 
     case ik_VAR:
@@ -46,12 +48,15 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, ...){
       break;
 
     case ik_PROC:
+      new_ptr->u.pf.param_size = va_arg(args, int);
       break;
 
     case ik_FUNC:
+      new_ptr->u.pf.param_size = va_arg(args, int);
       break;
 
     case ik_PARAM:
+    new_ptr->u.param.is_val = va_arg(args, int);
       break;
 
     case ik_LIST:
@@ -60,14 +65,18 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, ...){
     case ik_TYPE:
       break;
     
+    //this is incomplete: need to account for arrays. possibly treat string as char tk_array?
     case ik_CONST:
     //using switch for speed. less legible?
       switch(desc->kind) {
         case tk_SCALAR:
+        new_ptr->u.val.i_val = va_arg(args, int);
           break;
         case tk_STRING:
+        new_ptr->u.val.i_val = va_arg(args, char*);
           break;
         case tk_ARRAY:
+
           break;
       }
       break;
@@ -76,4 +85,9 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, ...){
       //print error: invalid id kind!
   }
   va_end(args);
+
+  //print the thing
+  debug_printf("");
+
+  return new_ptr;
 }
