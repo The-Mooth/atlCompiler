@@ -9,12 +9,10 @@
 returntypes for $$?
 */
 %union {
-  id_desc_ptr id_value;
-  type_info_ptr type_value;
+  id_info_ptr id_value;
+  type_desc_ptr type_value;
   int i_value;
   char* s_value;
-
-  node_ptr ast;
 
 }
 
@@ -26,7 +24,6 @@ or if
 */
 %start PROGRAM
 
-%token PROGRAM
 %token FUNC PROC
 %token BEGIN WHILE DO
 /* precedence is in ascending order */
@@ -39,8 +36,8 @@ or if
 
 /* grammar rules */
 %%
+PROGRAM: PROGRAM
 
-PROGRAM : PROGRAM ID
 
 %%
 /* c code */

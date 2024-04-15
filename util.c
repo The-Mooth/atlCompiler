@@ -14,15 +14,11 @@ void debug_printf(char* line, ...)
 }
 
 
-void gen_error(char* err_msg, ...) {
+void gen_error(char* err_msg) {
   errors_found = TRUE;
 
-  char line_buff[50] = sprintf_s("on line: %d in file %s: ", line_no, src_name);
-  char err_buff[100];
-  va_list args;
-  va_start(args, err_msg);
-  vsprintf(err_buff, err_msg, args);
-  va_end(args);
-
-  printf(strcat(line_buff, err_buff));
+  char line_buff[100];
+  sprintf(line_buff, "on line: %d in file %s: ", line_no, src_name);
+  strcat(line_buff, err_msg);
+  printf("%s", line_buff);
 }

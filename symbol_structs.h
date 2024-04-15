@@ -60,6 +60,8 @@ typedef union id_union {
 
 } id_union;
 
+typedef struct id_info* id_info_ptr;
+
 typedef struct id_info {
   //universals
   char* name;
@@ -79,4 +81,4 @@ typedef struct id_info {
 
 } id_info;
 
-typedef struct id_info* id_info_ptr;
+

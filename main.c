@@ -7,8 +7,6 @@
 
 
 
-
-
 int main(int argc, char** argv) 
 {
   //process flags and input
@@ -43,6 +41,12 @@ int main(int argc, char** argv)
     //get contents of source file
     debug_printf("opening input file");
 
+    //for debugging scanner
+    #ifdef TESTSCAN
+      gen_error("hello world");
+      exit(0);
+    #endif
+
     yyin = fopen(src_name, "r");
     if (yyin == NULL) {
       perror("could not open input file");
@@ -76,3 +80,5 @@ int main(int argc, char** argv)
 
   return 0;
 }
+
+

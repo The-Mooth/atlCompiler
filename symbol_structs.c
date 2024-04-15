@@ -16,7 +16,7 @@ type_desc_ptr make_type_desc(type_kind tk_kind, int size, int low, int high, typ
     //error: low must be greater than high 
   }
 
-  if (!size == (high - low)) {
+  if (!(size == (high - low))) {
     //error: size != actual size
   }
 
@@ -73,7 +73,7 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr
         new_ptr->u.val.i_val = va_arg(args, int);
           break;
         case tk_STRING:
-        new_ptr->u.val.i_val = va_arg(args, char*);
+        new_ptr->u.val.s_val = va_arg(args, char*);
           break;
         case tk_ARRAY:
 
@@ -82,6 +82,7 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr
       break;
 
     default:
+      break;
       //print error: invalid id kind!
   }
   va_end(args);

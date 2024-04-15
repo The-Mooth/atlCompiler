@@ -1,7 +1,7 @@
 PROJECT = atl
 OBJS = main.o parser.o scanner.o symbol_structs.o symbol_table.o syntax_tree.o kv_tree.o util.o
 GEN = parser.c scan.c y.tab.h
-CFLAGS -g -Wall
+CFLAGS = -g -Wall
 LIBS = -ll
 BIN=/bin
 all: $(PROJECT) testscan
@@ -17,8 +17,8 @@ parser.c: atl.y
 	mv y.tab.c parser.c
 
 scanner.c: scanner.l
-flex scanner.l
-mv lex.yy.c scanner.c
+	flex scanner.l
+	mv lex.yy.c scanner.c
 
 clean:
 	rm -f $(OBJS) atl.out atl.hcs *.atl
@@ -31,9 +31,9 @@ testscan: parser.o util.o symbol_table.o symbol_structs.o syntax_tree.o kv_tree.
 	main.c scanner.c parser.o util.o symbol_table.o symbol_structs.o syntax_tree.o kv_tree.o $(LIBS)
 
 
-y.tab.h: alt.y parser.c
+y.tab.h: atl.y parser.c
 
-parser.o: definitions.h globals.h
+parser.o: definitions.h globals.h 
 scanner.o: y.tab.h
 util.o: definitions.h globals.h
 main.o: definitions.h globals.h
