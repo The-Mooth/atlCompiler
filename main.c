@@ -17,7 +17,7 @@ int main(int argc, char** argv)
   int opt;
   char* asm_output = NULL;
 
-  while (opt = getopt(argc, argv, "do:") != -1) 
+  while ((opt = getopt(argc, argv, "do:")) != -1) 
   {
     switch(opt) 
     {
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 
 
     if (!asm_output) {
-      asm_output == "atl.out";
+      asm_output = "atl.out";
     } 
 
     debug_printf("executable name = %s", asm_output);

@@ -1,8 +1,8 @@
 %{
 //definitions section
 
-#include "defs.h"
-#include "global.h"
+#include "definitions.h"
+#include "globals.h"
 
 //token definitions from yacc
 #include "y.tab.h"
@@ -13,7 +13,7 @@ ID      [a-z][a-z0-9]*
 WHITESPACE [ \t]+
 
 %}
-%option yy_no_unput
+%option nounput
 %%
 
 %{

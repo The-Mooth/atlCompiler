@@ -25,7 +25,7 @@ or if
 %start PROGRAM
 
 %token FUNC PROC
-%token BEGIN WHILE DO
+%token YYBEGIN WHILE DO
 /* precedence is in ascending order */
 %nonassoc ASSIGN
 %nonassoc EQ GT LT GTE LTE
@@ -36,7 +36,7 @@ or if
 
 /* grammar rules */
 %%
-PROGRAM: PROGRAM
+PROGRAM: PROGRAM WHILE
 
 
 %%
