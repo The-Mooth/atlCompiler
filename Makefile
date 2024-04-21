@@ -6,7 +6,7 @@ LIBS = -ll
 BIN=/bin
 all: $(PROJECT) testscan
 
-$(PROG): $(OBJS)
+$(PROJECT): $(OBJS)
 	gcc -o $(PROJECT) $(CFLAGS) $(OBJS) $(LIBS)
 
 install: $(PROJECT)

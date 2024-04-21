@@ -451,8 +451,10 @@ DIGIT   [0-9]
 ID      [a-z][a-z0-9]*
 WHITESPACE [ \t]+
 
-#line 455 "lex.yy.c"
-#line 456 "lex.yy.c"
+
+
+#line 457 "lex.yy.c"
+#line 458 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -667,17 +669,25 @@ YY_DECL
 		}
 
 	{
-#line 17 "scanner.l"
+#line 19 "scanner.l"
 
 
 
-#line 21 "scanner.l"
+#line 23 "scanner.l"
 //rules section
 
+{ID} ECHO 
+
+
+{WHITESPACE}+ //remove whitespace
+
+
+. //yyerror("Unrecognized Token: %s", yytext);//does yyerror take formatted arguments?
 
 
 
-#line 681 "lex.yy.c"
+
+#line 691 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -736,10 +746,10 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 26 "scanner.l"
+#line 36 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 743 "lex.yy.c"
+#line 753 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1707,7 +1717,12 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 26 "scanner.l"
+#line 36 "scanner.l"
 
 
 //user code section
+
+#ifdef TESTSCAN
+
+
+#endif

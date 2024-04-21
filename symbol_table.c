@@ -11,7 +11,7 @@ kv_tree* init_symtab(char* progname) {
   kv_tree* scope = &true_scope[1];
 
 //create and populate negative index. 
-  kv_init(scope[cur_scope]);
+  kv_init(&scope[cur_scope]);
 
   //initialize default types
   

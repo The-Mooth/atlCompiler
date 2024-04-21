@@ -14,7 +14,7 @@ void debug_printf(char* line, ...)
 }
 
 
-void gen_error(char* err_msg) {
+int yyerror(char* err_msg) {
   errors_found = TRUE;
 
   char line_buff[100];

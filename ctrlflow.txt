@@ -42,3 +42,33 @@ scanner.l:    scan.c,
               y.tab.h,
 
 atl.y:        parse.c
+
+
+
+PRESET TOKENS:::
+
+function format decls:
+
+
+  begin 
+  end
+
+for code:
+
+  WHILE
+  DO
+  rel ops
+  math ops
+  assignment ops
+
+//built in functions like write, read etc. will be handled and inserted by symbol table(?)
+
+built ins for symbol table (like int, string, bool, etc):
+  int 
+  string 
+  bool 
+  array(?)
+  write
+  read
+
+

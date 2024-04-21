@@ -36,7 +36,9 @@ or if
 
 /* grammar rules */
 %%
-PROGRAM: PROGRAM WHILE
+PROGRAM:
+
+
 
 
 %%

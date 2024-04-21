@@ -30,12 +30,11 @@
 
   //parser.c
   int yyparse(void);
-  int yyerror(char* s);
 
   //scanner.c
   int yylex(void);
 
   //util.c
   void debug_printf(char* line, ...); 
-  void gen_error(char* err_msg);
+  void yyerror(char* err_msg);
 
