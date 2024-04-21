@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 
     //for debugging scanner
     #ifdef TESTSCAN
-      gen_error("hello world");
+      yyerror("hello world");
       exit(0);
     #endif
 

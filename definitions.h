@@ -28,6 +28,9 @@
   #define make_type_simple(type_kind) make_type_desc(type_kind tk_kind, 1, 0, 1, null);
   id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr id_list, ...);
 
+  //symbol_table.c
+  void init_symtab(char* progname);
+
   //parser.c
   int yyparse(void);
 
@@ -36,5 +39,5 @@
 
   //util.c
   void debug_printf(char* line, ...); 
-  int yyerror(char* err_msg);
+  void yyerror(char* err_msg, ...);
 

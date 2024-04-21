@@ -7,6 +7,7 @@
 
 /* union 
 returntypes for $$?
+this is YYLVAL
 */
 %union {
   id_info_ptr id_value;

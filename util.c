@@ -14,12 +14,19 @@ void debug_printf(char* line, ...)
 }
 
 
-int yyerror(char* err_msg) {
+void yyerror(char* err_msg, ...) {
   errors_found = TRUE;
 
-  char line_buff[100];
+  //prep error format
+  char line_buff[200];
+  char line_buff2[100]; 
   sprintf(line_buff, "on line: %d in file %s: ", line_no, src_name);
-  strcat(line_buff, err_msg);
-  printf("%s", line_buff);
-  return 1;
+
+  //add error message
+  va_list args;
+  va_start(args, err_msg);
+  vsprintf(line_buff2, err_msg, args);
+  va_end(args);
+  strcat(line_buff, line_buff2);
+  fprintf(stderr, "%s\n", line_buff);
 }

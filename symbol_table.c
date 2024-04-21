@@ -3,13 +3,13 @@
 
 //symbol table will be an array of key-variable trees, each tree representing a scope.
 //max of 16 scopes, because in the event that I need to write something that complex
-//I'll use a real language like js /s
+//I'll use something industry standard
+kv_tree symtab[17];
+//use negative index to hide default type pointers (int, str, etc)
+kv_tree* scope = &symtab[1];
 
-kv_tree* init_symtab(char* progname) {
-  //create kv tree array, with negative index for reserved typing
-  kv_tree true_scope[max_scope];
-  kv_tree* scope = &true_scope[1];
-
+void init_symtab(char* progname) {
+  
 //create and populate negative index. 
   kv_init(&scope[cur_scope]);
 
