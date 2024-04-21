@@ -21,4 +21,5 @@ int yyerror(char* err_msg) {
   sprintf(line_buff, "on line: %d in file %s: ", line_no, src_name);
   strcat(line_buff, err_msg);
   printf("%s", line_buff);
+  return 1;
 }

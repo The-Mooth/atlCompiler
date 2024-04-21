@@ -1,6 +1,6 @@
 PROJECT = atl
 OBJS = main.o parser.o scanner.o symbol_structs.o symbol_table.o syntax_tree.o kv_tree.o util.o
-GEN = parser.c scan.c y.tab.h
+GEN = parser.c scanner.c y.tab.h
 CFLAGS = -g -Wall
 LIBS = -ll
 BIN=/bin
@@ -13,10 +13,10 @@ install: $(PROJECT)
 	cp $(PROJECT) $(BIN)
 
 parser.c: atl.y
-	$(YACC) -d atl.y
+	byacc -d atl.y
 	mv y.tab.c parser.c
 
-scanner.c: scanner.l
+scanner.c: scanner.l y.tab.h
 	flex scanner.l
 	mv lex.yy.c scanner.c
 
@@ -24,7 +24,7 @@ clean:
 	rm -f $(OBJS) atl.out atl.hcs *.atl
 
 realclean: clean	
-	rm -f $(PROJECT)$(GEN) testscan
+	rm -f $(PROJECT) $(GEN) testscan
 
 testscan: parser.o util.o symbol_table.o symbol_structs.o syntax_tree.o kv_tree.o scanner.c main.c
 	gcc -o testscan $(CFLAGS) -DTESTSCAN \
@@ -32,7 +32,6 @@ testscan: parser.o util.o symbol_table.o symbol_structs.o syntax_tree.o kv_tree.
 
 
 y.tab.h: atl.y parser.c
-
 parser.o: definitions.h globals.h 
 scanner.o: y.tab.h
 util.o: definitions.h globals.h

@@ -36,5 +36,5 @@
 
   //util.c
   void debug_printf(char* line, ...); 
-  void yyerror(char* err_msg);
+  int yyerror(char* err_msg);
 
