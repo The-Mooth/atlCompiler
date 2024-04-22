@@ -1,0 +1,7 @@
+
+#ignore generated files
+#for now
+
+*.o
+scanner.o
+parser.o
