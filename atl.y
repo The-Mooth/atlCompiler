@@ -29,7 +29,7 @@ or if
 %token YYBEGIN WHILE DO
 /* precedence is in ascending order */
 %nonassoc ASSIGN
-%nonassoc EQ GT LT GTE LTE
+%nonassoc RELATION
 %left '+' '-'
 %left'*' '/' '%'
 %left UMINUS
@@ -37,10 +37,13 @@ or if
 
 /* grammar rules */
 %%
-PROGRAM:
+PROGRAM: 
 
 
-
+expr: expr '+' expr
+    | expr '-' expr
+    | expr '/' expr
+    | expr '*' expr
 
 %%
 /* c code */
