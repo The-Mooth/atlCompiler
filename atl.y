@@ -32,6 +32,7 @@ or if
 %nonassoc RELATION
 %left '+' '-'
 %left'*' '/' '%'
+
 %left UMINUS
 
 
@@ -44,6 +45,10 @@ expr: expr '+' expr
     | expr '-' expr
     | expr '/' expr
     | expr '*' expr
+    ;
 
+var: ID
+  | ID '[' NUMBER ']'
+  ;
 %%
 /* c code */

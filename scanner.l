@@ -32,15 +32,16 @@ WHITESPACE [ \t]+
 
 "/*" BEGIN COMMENT;
 <COMMENT>"*/" BEGIN 0;
-<COMMENT>\n {line_no++}
+<COMMENT>\n line_no++;
 <COMMENT><<EOF>> {yyerror("UNTERMINATED COMMENT")}
 <COMMENT>. {/*in comment: do nothing*/}
 
 
 
 \"()\" {
-  yylval.s_val = strdup(yytext);
-  return STRING;}
+  yylval.s_value = strdup(yytext);
+  return STRING;
+}
 
 
 
@@ -51,8 +52,12 @@ WHITESPACE [ \t]+
 
 
 "+"|"-"|";"|"("|")"|","|"."|":" {
-	  return((int)yytext[0]);
- 	}
+	return((int)yytext[0]);
+}
+
+"*"|"%"|"/" {yylval.i_value = yytext[0]; 
+  return(MUL_OP);
+}
 
   //reserved words
 
@@ -104,17 +109,22 @@ WHITESPACE [ \t]+
 
 (?i:procedure) return(PROCEDURE);
 
-"*"|(?i:mod)|"/" return(MUL_OP);
+{ID} { yylval.s_value = strdup(yytext);
+  return ID;
+}
 
-{ID} return ID;
-
-{DIGIT}+ return NUMBER;
-
+{DIGIT}+ { yylval.i_value = atoi(yytext);
+  return NUMBER;
+}
 . yyerror("Unrecognized Token: %s", yytext);//does yyerror take formatted arguments?
 
 %%
 
 //user code section
+
+
+//manage nested comments?
+
 
 #ifdef TESTSCAN
 
