@@ -38,7 +38,8 @@ or if
 
 /* grammar rules */
 %%
-PROGRAM: 
+PROGRAM:  PROGRAM ID ';' { init_symtab($2);} block '.' {
+}
 
 
 expr: expr '+' expr
