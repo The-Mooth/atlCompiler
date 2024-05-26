@@ -17,7 +17,7 @@ typedef enum node_type {
   ASSIGN,
   REPEAT,
   WHILE,
-  FUNCTION,
+  FUNCTIONST,
   RETURN,
   IF,
   ELSE,
@@ -26,7 +26,7 @@ typedef enum node_type {
   //expression nodes
   BINARY,
   UNARY,
-  FUNCTION,
+  FUNCTIONEX,
   SIMPLE,
   CONS,
   PAREN,
@@ -39,22 +39,53 @@ typedef enum node_type {
 
 typedef struct syntax_node* syntax_node_ptr;
 
-typedef union {     
-  struct{} repeat;
-  struct{} assign;
-  struct{} while_node;
-  struct{} function;
-  struct{} return_node;
-  struct{} if_node;
-  struct{} else_node;
-  struct{} elif;
-} format;
-
 typedef union {
-  struct{} block;
-  struct{} program;
-  struct{} subprogram;
-}statement;
+  struct{
+    syntax_node_ptr stmt_list;
+  } block;
+  struct{
+    syntax_node_ptr block;
+  } program;
+  struct{
+    //this is only if I decide to do it later
+    //will be used for nested programs
+  } subprogram;
+}format;
+
+typedef union {     
+  struct{
+    syntax_node_ptr stmt_list;
+    syntax_node_ptr expr;
+  } repeat;
+  struct{
+    id_info_ptr var;
+    syntax_node_ptr expr;
+  } assign;
+  struct{
+    syntax_node_ptr expr;
+    syntax_node_ptr stmt_list;
+  } while_node;
+  struct{
+    syntax_node_ptr stmt_list;
+  } function;
+  struct{
+    syntax_node_ptr expr;
+  } return_node;
+  struct{
+    syntax_node_ptr expr;
+    syntax_node_ptr then;
+    syntax_node_ptr elif;
+    syntax_node_ptr else_node;
+  } if_node;
+  struct{
+    syntax_node_ptr stmt_list;
+  } else_node;
+  struct{
+    syntax_node_ptr next_elif;
+    syntax_node_ptr else_node;
+    syntax_node_ptr then;
+  } elif;
+} statement;
 
 typedef union{
   struct{
@@ -97,7 +128,7 @@ typedef union{
   } mparam;
 }expression;
 
-struct syntax_node {
+typedef struct syntax_node {
   //int lvl?
   //int offset?
   node_type type;
@@ -111,5 +142,40 @@ struct syntax_node {
   } type;
 
 } syntax_node;
+
+
+void choose_node_type(syntax_node_ptr node, va_list args);
+
+//functions to handle node types
+void handle_BLOCK(syntax_node_ptr node, va_list args);
+void handle_PROGRAM(syntax_node_ptr node, va_list args);
+void handle_SUBPROGRAM(syntax_node_ptr node, va_list args);
+void handle_ASSIGN(syntax_node_ptr node, va_list args);
+void handle_REPEAT(syntax_node_ptr node, va_list args);
+void handle_WHILE(syntax_node_ptr node, va_list args);
+void handle_FUNCTIONST(syntax_node_ptr node, va_list args);
+void handle_RETURN(syntax_node_ptr node, va_list args);
+void handle_IF(syntax_node_ptr node, va_list args);
+void handle_ELSE(syntax_node_ptr node, va_list args);
+void handle_ELIF(syntax_node_ptr node, va_list args);
+void handle_BINARY(syntax_node_ptr node, va_list args);
+void handle_UNARY(syntax_node_ptr node, va_list args);
+void handle_FUNCTIONEX(syntax_node_ptr node, va_list args);
+void handle_SIMPLE(syntax_node_ptr node, va_list args);
+void handle_CONS(syntax_node_ptr node, va_list args);
+void handle_PAREN(syntax_node_ptr node, va_list args);
+void handle_INDEX(syntax_node_ptr node, va_list args);
+void handle_APARAM(syntax_node_ptr node, va_list args);
+void handle_MPARAM(syntax_node_ptr node, va_list args);
+
+//TODO:
+
+//research union declarations, such as 
+/*
+typedef union (NAME?) {
+
+} name;
+*/
+
 
 #endif;
