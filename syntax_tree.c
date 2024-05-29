@@ -118,82 +118,98 @@ possible solutions for structuring syntax tree:
 
 */
 //Below are the case handlers for individual node types, who will take different arguments
-void handle_BLOCK(format fmt, va_list args) {
-    
+
+void handle_BLOCK(syntax_node_ptr node, va_list args) {
+  node->data.fmt.block.stmt_list = va_arg(args, syntax_node_ptr);
 }
 
 void handle_PROGRAM(syntax_node_ptr node, va_list args) {
-    
+  node->data.fmt.program.block = va_arg(args, syntax_node_ptr);
 }
 
 void handle_SUBPROGRAM(syntax_node_ptr node, va_list args) {
-    
-}
-
-void handle_ASSIGN(syntax_node_ptr node, va_list args) {
-    
+  //to be added
 }
 
 void handle_REPEAT(syntax_node_ptr node, va_list args) {
-    
+  node->data.stmt.repeat.stmt_list = va_arg(args, syntax_node_ptr);
+  node->data.stmt.repeat.expr = va_arg(args, syntax_node_ptr);
+}
+
+void handle_ASSIGN(syntax_node_ptr node, va_list args) {
+  node->data.stmt.assign.var = va_arg(args, id_info_ptr);
+  node->data.stmt.assign.expr = va_arg(args, syntax_node_ptr);
 }
 
 void handle_WHILE(syntax_node_ptr node, va_list args) {
-    
+  node->data.stmt.while_node.expr = va_arg(args, syntax_node_ptr);
+  node->data.stmt.while_node.stmt_list = va_arg(args, syntax_node_ptr);
 }
 
 void handle_FUNCTIONST(syntax_node_ptr node, va_list args) {
-    
+  node->data.stmt.function_st.stmt_list = va_arg(args, syntax_node_ptr);
 }
 
 void handle_RETURN(syntax_node_ptr node, va_list args) {
-    
+  node->data.stmt.return_node.expr = va_arg(args, syntax_node_ptr);
 }
 
 void handle_IF(syntax_node_ptr node, va_list args) {
-    
+  node->data.stmt.if_node.expr = va_arg(args, syntax_node_ptr);
+  node->data.stmt.if_node.then = va_arg(args, syntax_node_ptr);
+  node->data.stmt.if_node.elif = va_arg(args, syntax_node_ptr);
+  node->data.stmt.if_node.else_node = va_arg(args, syntax_node_ptr);
 }
 
 void handle_ELSE(syntax_node_ptr node, va_list args) {
-    
+  node->data.stmt.else_node.stmt_list = va_arg(args, syntax_node_ptr);
 }
 
 void handle_ELIF(syntax_node_ptr node, va_list args) {
-    
+  node->data.stmt.elif.expr = va_arg(args, syntax_node_ptr);
+  node->data.stmt.elif.then= va_arg(args, syntax_node_ptr);
+  node->data.stmt.elif.next_elif = va_arg(args, syntax_node_ptr);
+  node->data.stmt.elif.else_node = va_arg(args, syntax_node_ptr);
 }
 
 void handle_BINARY(syntax_node_ptr node, va_list args) {
-    
+  node->data.expr.binary.op = va_arg(args, char);
+  node->data.expr.binary.expr1 = va_arg(args, syntax_node_ptr);
+  node->data.expr.binary.expr2 = va_arg(args, syntax_node_ptr);
+  node->data.expr.binary.result = va_arg(args, type_desc_ptr);
 }
 
 void handle_UNARY(syntax_node_ptr node, va_list args) {
-    
+  node->data.expr.unary.op = va_arg(args, char);
+  node->data.expr.unary.expr = va_arg(args, syntax_node_ptr);
+  node->data.expr.unary.result = va_arg(args, type_desc_ptr);
 }
 
 void handle_FUNCTIONEX(syntax_node_ptr node, va_list args) {
-    
+    //TODO
 }
 
 void handle_SIMPLE(syntax_node_ptr node, va_list args) {
-    
+  node->data.expr.simple.variable = va_arg(args, id_info_ptr);
 }
 
 void handle_CONS(syntax_node_ptr node, va_list args) {
-    
+  node->data.expr.constant.value = va_arg(args, int);
 }
 
 void handle_PAREN(syntax_node_ptr node, va_list args) {
-    
+  node->data.expr.parentheses.contents = va_arg(args, syntax_node_ptr);
 }
 
 void handle_INDEX(syntax_node_ptr node, va_list args) {
-    
+  node->data.expr.index.pos = va_arg(args, int);
 }
 
 void handle_APARAM(syntax_node_ptr node, va_list args) {
-    
+  node->data.expr.aparam.expr = va_arg(args, syntax_node_ptr);
 }
 
 void handle_MPARAM(syntax_node_ptr node, va_list args) {
-    
+  //tentative
+  node->data.expr.mparam.aparam = va_arg(args, syntax_node_ptr);
 }

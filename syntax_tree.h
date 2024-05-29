@@ -39,85 +39,89 @@ typedef enum node_type {
 
 typedef struct syntax_node* syntax_node_ptr;
 
-typedef union {
-  struct{
+typedef union Format{
+  struct Block{
     syntax_node_ptr stmt_list;
   } block;
-  struct{
+  struct Program{
     syntax_node_ptr block;
   } program;
-  struct{
+  struct Subprogram{
     //this is only if I decide to do it later
     //will be used for nested programs
   } subprogram;
 }format;
 
-typedef union {     
-  struct{
+typedef union Statement{     
+  struct Repeat{
     syntax_node_ptr stmt_list;
     syntax_node_ptr expr;
   } repeat;
-  struct{
+  struct Assign{
     id_info_ptr var;
     syntax_node_ptr expr;
   } assign;
-  struct{
+  struct While_node{
     syntax_node_ptr expr;
     syntax_node_ptr stmt_list;
   } while_node;
-  struct{
+  struct Function_st{
     syntax_node_ptr stmt_list;
-  } function;
-  struct{
+  } function_st;
+  struct Return_node{
     syntax_node_ptr expr;
   } return_node;
-  struct{
+  struct If_node{
     syntax_node_ptr expr;
     syntax_node_ptr then;
     syntax_node_ptr elif;
     syntax_node_ptr else_node;
   } if_node;
-  struct{
+  struct Else_node{
     syntax_node_ptr stmt_list;
   } else_node;
-  struct{
+  struct Elif{
+    syntax_node_ptr expr;
+    syntax_node_ptr then;
     syntax_node_ptr next_elif;
     syntax_node_ptr else_node;
-    syntax_node_ptr then;
   } elif;
-} statement;
+}statement;
 
-typedef union{
-  struct{
+typedef union Expression{
+  struct Binary{
     char op;
     syntax_node_ptr expr1;
-    syntax_node_ptr exp2;
+    syntax_node_ptr expr2;
     type_desc_ptr result;
   } binary;
-  struct{
+  struct Unary{
     char op;
     syntax_node_ptr expr;
-    type_desc_ptr res;
+    type_desc_ptr result;
   } unary;
-  struct{
+   struct Function_ex{
+    //TODO
+  } function_ex;
+  struct Simple{
     id_info_ptr variable;
   } simple;
-  struct{
+  struct Constant{
     int value;
   } constant;
-  struct{
+  struct String{
     char* value;
   } string;
-  struct{
+  struct Parentheses{
     syntax_node_ptr contents;
   } parentheses;
-  struct{
+  struct Index{
     int pos;
   } index;
-  struct{
+  struct Aparam{
     syntax_node_ptr expr;
   } aparam;
-  struct{
+  struct Mparam{
     /*TODO: what do I need to track here?
     probably required parameter type,
     and default value assuming no type supplied.
@@ -135,11 +139,11 @@ typedef struct syntax_node {
 
   syntax_node_ptr next_node;
 
-  union {
+  union Data{
   format fmt;
   statement stmt;
   expression expr;
-  } type;
+  }data;
 
 } syntax_node;
 
