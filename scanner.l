@@ -17,6 +17,7 @@ DIGIT   [0-9]
 ID      [a-z][a-z0-9]*
 WHITESPACE [ \t]+
 
+
 %%
 
 %{
@@ -87,7 +88,7 @@ WHITESPACE [ \t]+
 
 (?i:begin) return(YYBEGIN);
 
-(?i:elsif) return(ELSIF);
+(?i:elif) return(ELIF);
 
 (?i:until) return(UNTIL);
 
@@ -98,8 +99,6 @@ WHITESPACE [ \t]+
 (?i:repeat) return(REPEAT);
 
 (?i:return) return(RETURN);
-
-(?i:returns) return(RETURNS);
 
 (?i:program) return(PROGRAM);
 

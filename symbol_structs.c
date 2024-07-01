@@ -63,6 +63,7 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr
       break;
 
     case ik_TYPE:
+      //no fields to populate
       break;
     
     //this is incomplete: need to account for arrays. possibly treat string as char tk_array?
