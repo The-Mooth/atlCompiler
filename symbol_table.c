@@ -13,6 +13,9 @@ void init_symtab(char* progname) {
   //create and populate negative index. 
   kv_init(&scope[cur_scope]);
 
+  //add program name
+  insert_id(progname);
+
   //initialize default types
   //int, string, bool, error?? maybe char...
   type_desc_ptr int_desc = make_type_desc(tk_SCALAR, 4, 0, 0, NULL);
@@ -85,6 +88,10 @@ int find_id(char* name) {
     }
   }
   return -2;
+}
+
+void print_scope() {
+
 }
 /*needed functions:
 print_scope

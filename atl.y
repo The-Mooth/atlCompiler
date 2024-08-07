@@ -44,18 +44,22 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 
 /* grammar rules */
 %%
-PROGRAM : PROGRAM ID ';' { init_symtab($2);} block '.' {
+PROGRAM : PROGRAM ID ';' { init_symtab($2);} block '.' { 
+  if 
 }
 
 
-
+/* */
 block : dec_list YYBEGIN stmt_list END ID {
-  
+ 
 }
+
+/* */
 stmt_list : {$$ = NULL;}
     | stmt_list stmt
     ;
 
+/* */
 stmt : var ASSIGN expr ';'
     | IF expr THEN stmt_list elif_clause else_clause ';'
     | WHILE expr DO stmt_list ';'
@@ -68,14 +72,17 @@ stmt : var ASSIGN expr ';'
     | RETURN ';'
     ;
 
+/* */
 elif_clause : {$$ = NULL;}
     | ELIF expr THEN stmt_list elif_clause
     ;
-  
+
+/* */
 else_clause : {$$ = NULL;}
     | ELSE stmt_list
     ;
 
+/* */
 expr : expr '+' expr
     | expr '-' expr
     | expr '/' expr
@@ -89,13 +96,16 @@ expr : expr '+' expr
     | int_const
     ;
 
+/* */
 int_const : NUMBER
     | '-' NUMBER
     ;
 
+/* */
 var_dec : VARIABLE var 
     ;
 
+/* */
 var : ID  
   | ID '[' NUMBER ']'
   ;
