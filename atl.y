@@ -27,25 +27,24 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %start PROGRAM
  
  //inventory of tokens
-
 %token  DO IF IS OF OR AND END NOT ELSE THEN TYPE
 %token YYBEGIN WHILE ARRAY ELIF UNTIL VALUE
-%token REPEAT RETURN PROGRAM
+%token REPEAT RETURN
 %token VARIABLE FUNCTION PROCEDURE
 %token ID NUMBER STRING
 /* precedence is in ascending order */
 %nonassoc ASSIGN
 %nonassoc RELATION
 %left '+' '-'
-%left'*' '/' '%'
+%left MUL_OP
 
 %left UMINUS
 
 
 /* grammar rules */
 %%
-PROGRAM : PROGRAM ID ';' { init_symtab($2);} block '.' { 
-  if 
+PROGRAM : PROGRAM ID ';' block '.' { 
+
 }
 
 
@@ -55,7 +54,7 @@ block : dec_list YYBEGIN stmt_list END ID {
 }
 
 /* */
-stmt_list : {$$ = NULL;}
+stmt_list : 
     | stmt_list stmt
     ;
 
@@ -73,12 +72,12 @@ stmt : var ASSIGN expr ';'
     ;
 
 /* */
-elif_clause : {$$ = NULL;}
+elif_clause : 
     | ELIF expr THEN stmt_list elif_clause
     ;
 
 /* */
-else_clause : {$$ = NULL;}
+else_clause : 
     | ELSE stmt_list
     ;
 

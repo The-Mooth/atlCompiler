@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     {
       case 'd':
         debug = TRUE;
-
+        
 
       case 'v':
         

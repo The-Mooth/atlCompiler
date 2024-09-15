@@ -29,17 +29,15 @@ WHITESPACE [ \t]+
 */
 %}
 
-{WHITESPACE} ;
-
 "/*" BEGIN COMMENT;
 <COMMENT>"*/" BEGIN 0;
 <COMMENT>\n line_no++;
-<COMMENT><<EOF>> {yyerror("UNTERMINATED COMMENT")}
-<COMMENT>. {/*in comment: do nothing*/}
+<COMMENT><<EOF>> {yyerror("UNTERMINATED COMMENT");}
+<COMMENT>. {/*in comment: do nothing*/;}
 
 
 
-\"()\" {
+\".*\" {
   yylval.s_value = strdup(yytext);
   return STRING;
 }
@@ -49,7 +47,7 @@ WHITESPACE [ \t]+
 
 
 
-{WHITESPACE} ; //do nothing
+{WHITESPACE} ; 
 
 
 "+"|"-"|";"|"("|")"|","|"."|":" {
@@ -60,7 +58,7 @@ WHITESPACE [ \t]+
   return(MUL_OP);
 }
 
-  //reserved words
+  
 
 (?i:do) return(DO);
 
