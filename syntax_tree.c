@@ -173,14 +173,14 @@ void handle_ELIF(syntax_node_ptr node, va_list args) {
 }
 
 void handle_BINARY(syntax_node_ptr node, va_list args) {
-  node->data.expr.binary.op = va_arg(args, char);
+  node->data.expr.binary.op = va_arg(args, int);
   node->data.expr.binary.expr1 = va_arg(args, syntax_node_ptr);
   node->data.expr.binary.expr2 = va_arg(args, syntax_node_ptr);
   node->data.expr.binary.result = va_arg(args, type_desc_ptr);
 }
 
 void handle_UNARY(syntax_node_ptr node, va_list args) {
-  node->data.expr.unary.op = va_arg(args, char);
+  node->data.expr.unary.op = va_arg(args, int);
   node->data.expr.unary.expr = va_arg(args, syntax_node_ptr);
   node->data.expr.unary.result = va_arg(args, type_desc_ptr);
 }

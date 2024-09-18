@@ -14,7 +14,9 @@ void init_symtab(char* progname) {
   kv_init(&scope[cur_scope]);
 
   //add program name
-  insert_id(progname);
+  type_desc_ptr program_descriptor = make_type_desc(tk_SCALAR, 0, 0, 0, NULL);
+  id_info_ptr program_symbol = make_id_info(progname, ik_TYPE, program_descriptor, NULL);
+  insert_id(program_symbol);
 
   //initialize default types
   //int, string, bool, error?? maybe char...
@@ -48,7 +50,7 @@ void insert_id(id_info_ptr id) {
     return;
   }
   
-  if (kv_insert(scope[cur_scope], id->name, id) == 0) {
+  if (kv_insert(&scope[cur_scope], id->name, id) == 0) {
     yyerror("Error inserting identifier %s into scope %d.", id->name, cur_scope);
     free(id);
   }

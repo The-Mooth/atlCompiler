@@ -5,7 +5,9 @@
 typedef struct type_desc* type_desc_ptr;
 
 typedef enum type_kind {
+  //for static types (like ints), or for misc types (program names)
   tk_SCALAR, 
+  
   tk_ARRAY, 
   tk_STRING
   } type_kind;

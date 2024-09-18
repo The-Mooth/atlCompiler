@@ -90,13 +90,13 @@ typedef union Statement{
 
 typedef union Expression{
   struct Binary{
-    char op;
+    int op;
     syntax_node_ptr expr1;
     syntax_node_ptr expr2;
     type_desc_ptr result;
   } binary;
   struct Unary{
-    char op;
+    int op;
     syntax_node_ptr expr;
     type_desc_ptr result;
   } unary;
@@ -180,6 +180,4 @@ typedef union (NAME?) {
 
 } name;
 */
-
-
 #endif
