@@ -16,7 +16,8 @@ this is YYLVAL
   char* s_value;
 
 }
-
+/* Once YYSTYPE has been defined as a union, you may specify a particular interpretation of the union by including a statement of the form:
+%type <interpretation> symbol */
 
 /* tokens */
 /* token BANK 
@@ -43,7 +44,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 
 /* grammar rules */
 %%
-PROGRAM : PROGRAM ID ';' block '.' { 
+PROGRAM : PROGRAM ID {init_symtab($1);}';' block '.' { 
 
 }
 
