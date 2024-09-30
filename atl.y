@@ -14,14 +14,14 @@ this is YYLVAL
   type_desc_ptr type_value;
   int i_value;
   char* s_value;
-
+  syntax_node_pointer syntax_node;
 }
 /* Once YYSTYPE has been defined as a union, you may specify a particular interpretation of the union by including a statement of the form:
 %type <interpretation> symbol */
 
 /* tokens */
 /* token BANK 
-write read
+write read (?)
 or if  
 IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPEAT RETURN PROGRAM VARIABLE FUNCTION PROCEDURE
 */
@@ -35,25 +35,45 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %token ID NUMBER STRING
 /* precedence is in ascending order */
 %nonassoc ASSIGN
-%nonassoc RELATION
+%nonassoc <s_value> RELATION
 %left '+' '-'
-%left MUL_OP
+%left <c_value> MUL_OP
 
 %left UMINUS
 
+/* format token typing*/
+%type<syntax_node> block
+%type<syntax_node> stmt_list
+%type<syntax_node> stmt
+%type<syntax_node> elif_clause
+%type<syntax_node> else_clause
+%type<syntax_node> expr
+%type<i_value> int_const
+%type<syntax_node> var_dec
+%type<id_value> var
+
+/* leaf token typing*/
+%type<i_value> NUMBER
+%type<s_value> ID 
+
+/* to be implemented 
+%type<s_value> STRING 
+
+
+*/
 
 /* grammar rules */
 %%
-PROGRAM : PROGRAM ID {init_symtab($1);}';' block '.' { 
+PROGRAM : PROGRAM ID {init_symtab($2);}';' block '.' { 
 
 }
 
 
 /* */
 block : dec_list YYBEGIN stmt_list END ID {
- 
 }
 
+ 
 /* */
 stmt_list : 
     | stmt_list stmt
@@ -85,13 +105,11 @@ else_clause :
 /* */
 expr : expr '+' expr
     | expr '-' expr
-    | expr '/' expr
-    | expr '*' expr
-    | expr '%' expr
     | '-' expr
+    | REL_OP expr
     | '(' expr ')'
     | ID '(' aparam_list ')'
-    | var
+    | var 
     | STRING
     | int_const
     ;
@@ -110,7 +128,7 @@ var : ID
   | ID '[' NUMBER ']'
   ;
 
-
+ID
   
 %%
 /* c code */
