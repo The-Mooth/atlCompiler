@@ -35,7 +35,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %token ID NUMBER STRING
 /* precedence is in ascending order */
 %nonassoc ASSIGN
-%nonassoc <s_value> RELATION
+%nonassoc <s_value> REL_OP 
 %left '+' '-'
 %left <c_value> MUL_OP
 
@@ -106,6 +106,7 @@ else_clause :
 expr : expr '+' expr
     | expr '-' expr
     | '-' expr
+    | expr MUL_OP expr
     | REL_OP expr
     | '(' expr ')'
     | ID '(' aparam_list ')'

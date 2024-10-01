@@ -58,7 +58,9 @@ WHITESPACE [ \t]+
   return(MUL_OP);
 }
 
-  
+"=="|">="|"<="|"<"|">"| {
+  return REL_OP
+}
 
 (?i:do) return(DO);
 
