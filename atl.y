@@ -35,6 +35,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %token ID NUMBER STRING
 /* precedence is in ascending order */
 %nonassoc ASSIGN
+%right '='
 %nonassoc <s_value> REL_OP 
 %left '+' '-'
 %left <c_value> MUL_OP
@@ -121,7 +122,10 @@ int_const : NUMBER
     ;
 
 /* */
-var_dec : VARIABLE var 
+var_dec_list : var_dec 
+    | var_dec var_dec_list
+/* check for ik_type*/
+var_dec : ID {/* check for ik_type*/ }
     ;
 
 /* */
