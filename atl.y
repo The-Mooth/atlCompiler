@@ -76,7 +76,8 @@ block : dec_list YYBEGIN stmt_list END ID {
 
  
 /* */
-stmt_list : 
+stmt_list : %empty 
+    | stmt
     | stmt_list stmt
     ;
 
@@ -108,7 +109,7 @@ expr : expr '+' expr
     | expr '-' expr
     | '-' expr
     | expr MUL_OP expr
-    | REL_OP expr
+    | expr REL_OP expr
     | '(' expr ')'
     | ID '(' aparam_list ')'
     | var 
@@ -117,23 +118,32 @@ expr : expr '+' expr
     ;
 
 /* */
-int_const : NUMBER
-    | '-' NUMBER
+int_const : NUMBER  {$$ = $1}
+    | '-' NUMBER    {$$ = $2 * -1}
     ;
 
 /* */
-var_dec_list : var_dec 
-    | var_dec var_dec_list
+var_dec_list : %empty
+    | var_dec 
+    | var_dec_list var_dec
+
+
 /* check for ik_type*/
 var_dec : ID {/* check for ik_type*/ }
     ;
 
-/* */
-var : ID  
+/* check if id in symtab. if not, error.*/
+var : ID  {}
   | ID '[' NUMBER ']'
   ;
 
-ID
+
   
 %%
 /* c code */
+int handle_ID(char* ID){
+    if (find_id(ID)) == -2) {
+        // yyerror id not found
+    }
+
+}
