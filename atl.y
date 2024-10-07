@@ -130,10 +130,7 @@ dec_list : %empty
 
 /* check that id is a type, then assign typing to var_dec_list*/
 dec : var_dec_list ':' ID
-
-
-/* check that id is a type*/
-type_dec :  ID  
+    |   ID is var_dec
     ;
 
 /* */
@@ -157,16 +154,26 @@ var : ID  {}
 %%
 
 /* c code */
-int handle_ID(char* ID){
+int is_declared(char* ID){
     if (find_id(ID)) == -2) {
-        // yyerror id not found
+        return 0;
     }
 
 }
 
-void iterate_nodes(syntax_node_pointer cur, void (*operator)(syntax_node_pointer){
+void iterate_and_reverse(syntax_node_pointer cur, void (*operator)(syntax_node_pointer){
+    syntax_node_pointer temp = NULL;
+    syntax_node_pointer prev = NULL;
+    
+
     while(cur) {
+        
         operator(cur);
-        cur = cur->next_node;
+
+        temp = cur;
+        temp->next_node = prev;
+        prev = temp;
+        cur = cur->next;
     }
 }
+
