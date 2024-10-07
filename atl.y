@@ -95,12 +95,12 @@ stmt : var ASSIGN expr ';'
     ;
 
 /* */
-elif_clause : 
+elif_clause : %empty
     | ELIF expr THEN stmt_list elif_clause
     ;
 
 /* */
-else_clause : 
+else_clause : %empty
     | ELSE stmt_list
     ;
 
@@ -123,13 +123,28 @@ int_const : NUMBER  {$$ = $1}
     ;
 
 /* */
+dec_list : %empty
+    |   dec
+    |   dec_list ',' dec
+    ;
+
+/* check that id is a type, then assign typing to var_dec_list*/
+dec : var_dec_list ':' ID
+
+
+/* check that id is a type*/
+type_dec :  ID  
+    ;
+
+/* */
 var_dec_list : %empty
     | var_dec 
-    | var_dec_list var_dec
+    | var_dec_list ',' var_dec
+    ;
 
 
 /* check for ik_type*/
-var_dec : ID {/* check for ik_type*/ }
+var_dec : ID {/* make sure not in symbtab (just cur level?), process typing later*/ }
     ;
 
 /* check if id in symtab. if not, error.*/
@@ -140,10 +155,18 @@ var : ID  {}
 
   
 %%
+
 /* c code */
 int handle_ID(char* ID){
     if (find_id(ID)) == -2) {
         // yyerror id not found
     }
 
+}
+
+void iterate_nodes(syntax_node_pointer cur, void (*operator)(syntax_node_pointer){
+    while(cur) {
+        operator(cur);
+        cur = cur->next_node;
+    }
 }
