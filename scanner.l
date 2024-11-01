@@ -58,8 +58,8 @@ WHITESPACE [ \t]+
   return(MUL_OP);
 }
 
-"=="|">="|"<="|"<"|">"| {
-  return REL_OP
+"=="|">="|"<="|"<"|">" {yylval.s_value = strdup(yytext);
+  return(REL_OP);
 }
 
 (?i:do) return(DO);

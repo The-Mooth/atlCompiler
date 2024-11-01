@@ -14,7 +14,7 @@ this is YYLVAL
   type_desc_ptr type_value;
   int i_value;
   char* s_value;
-  syntax_node_pointer syntax_node;
+  syntax_node_ptr syntax_node;
 }
 /* Once YYSTYPE has been defined as a union, you may specify a particular interpretation of the union by including a statement of the form:
 %type <interpretation> symbol */
@@ -52,10 +52,12 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %type<i_value> int_const
 %type<syntax_node> var_dec
 %type<id_value> var
+%type<syntax_node> dec_list
+%type<syntax_node> var_dec_list
 
 /* leaf token typing*/
 %type<i_value> NUMBER
-%type<s_value> ID 
+%type<s_value> ID
 
 /* to be implemented 
 %type<s_value> STRING 
@@ -69,14 +71,13 @@ PROGRAM : PROGRAM ID {init_symtab($2);}';' block '.' {
 
 }
 
-
 /* */
 block : dec_list YYBEGIN stmt_list END ID {
 }
 
  
 /* */
-stmt_list : %empty 
+stmt_list : {$$ = NULL;} 
     | stmt
     | stmt_list stmt
     ;
@@ -95,12 +96,12 @@ stmt : var ASSIGN expr ';'
     ;
 
 /* */
-elif_clause : %empty
+elif_clause : {$$ = NULL;} 
     | ELIF expr THEN stmt_list elif_clause
     ;
 
 /* */
-else_clause : %empty
+else_clause : {$$ = NULL;} 
     | ELSE stmt_list
     ;
 
@@ -118,12 +119,12 @@ expr : expr '+' expr
     ;
 
 /* */
-int_const : NUMBER  {$$ = $1}
-    | '-' NUMBER    {$$ = $2 * -1}
+int_const : NUMBER  {$$ = $1;}
+    | '-' NUMBER    {$$ = $2 * -1;}
     ;
 
 /* */
-dec_list : %empty
+dec_list : {$$ = NULL;}
     |   dec
     |   dec_list ',' dec
     ;
@@ -134,14 +135,14 @@ dec : var_dec_list ':' ID
     ;
 
 /* */
-var_dec_list : %empty
+var_dec_list : {$$ = NULL;}
     | var_dec 
     | var_dec_list ',' var_dec
     ;
 
 
 /* check for ik_type*/
-var_dec : ID {/* make sure not in symbtab (just cur level?), process typing later*/ }
+var_dec : ID {/* make sure not in symtab (just cur level?), process typing later*/ }
     ;
 
 /* check if id in symtab. if not, error.*/
@@ -154,26 +155,30 @@ var : ID  {}
 %%
 
 /* c code */
-int is_declared(char* ID){
-    if (find_id(ID)) == -2) {
+int is_declared(char* identifier){
+    if (find_id(identifier) == -2) {
         return 0;
     }
-
+    return 1;
 }
 
-void iterate_and_reverse(syntax_node_pointer cur, void (*operator)(syntax_node_pointer){
-    syntax_node_pointer temp = NULL;
-    syntax_node_pointer prev = NULL;
+void iterate_and_reverse (syntax_node_ptr cur, void (*operator)(syntax_node_ptr)){
+
+    syntax_node_ptr temp = NULL;
+    syntax_node_ptr prev = NULL;
     
 
     while(cur) {
         
-        operator(cur);
+        if (operator) {
+            operator(cur);
+        }
 
         temp = cur;
+        cur = cur->next_node;
         temp->next_node = prev;
         prev = temp;
-        cur = cur->next;
+        cur = cur->next_node;
     }
 }
 

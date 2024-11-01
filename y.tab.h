@@ -1,3 +1,6 @@
+#ifndef _yy_defines_h_
+#define _yy_defines_h_
+
 #define DO 257
 #define IF 258
 #define IS 259
@@ -24,26 +27,28 @@
 #define NUMBER 280
 #define STRING 281
 #define ASSIGN 282
-#define RELATION 283
+#define REL_OP 283
 #define MUL_OP 284
 #define UMINUS 285
-#define dec_list 286
-#define statement 287
-#define param_list 288
-#define type_desc 289
-#define aparam_list 290
+#define statement 286
+#define param_list 287
+#define type_desc 288
+#define aparam_list 289
+#define is 290
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
 #endif
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
-typedef union {
+typedef union YYSTYPE {
   id_info_ptr id_value;
   type_desc_ptr type_value;
   int i_value;
   char* s_value;
-
+  syntax_node_ptr syntax_node;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
 extern YYSTYPE yylval;
+
+#endif /* _yy_defines_h_ */

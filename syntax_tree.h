@@ -170,5 +170,5 @@ void handle_CONS(syntax_node_ptr node, va_list args);
 void handle_PAREN(syntax_node_ptr node, va_list args);
 void handle_INDEX(syntax_node_ptr node, va_list args);
 void handle_APARAM(syntax_node_ptr node, va_list args);
-void handle_MPARAM(syntax_node_ptr node, va_list args)
+void handle_MPARAM(syntax_node_ptr node, va_list args);
 #endif
