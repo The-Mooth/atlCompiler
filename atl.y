@@ -67,7 +67,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 
 /* grammar rules */
 %%
-PROGRAM : PROGRAM ID {init_symtab($2);}';' block '.' { 
+PROGRAM : PROGRAM ID {init_symtab($2);} block '.' { 
 
 }
 
@@ -83,26 +83,26 @@ stmt_list : {$$ = NULL;}
     ;
 
 /* */
-stmt : var ASSIGN expr ';'
-    | IF expr THEN stmt_list elif_clause else_clause ';'
-    | WHILE expr DO stmt_list ';'
-    | REPEAT statement UNTIL expr ';'
-    | FUNCTION ID '(' param_list ')' ':' type_desc ';'
-    | PROCEDURE ID '(' param_list ')' ';'
-    | FUNCTION ID '(' param_list ')' ':' type_desc block ';'
-    | PROCEDURE ID '(' param_list ')' block ';'
-    | RETURN expr ';'
-    | RETURN ';'
+stmt : var ASSIGN expr {$$ = make_syntax_node(ASSIGN, $1, $3);}
+    | IF expr THEN stmt_list elif_clause else_clause  {$$ = make_syntax_node(IF, $2, $4, $5, $6);}
+    | WHILE expr DO stmt_list  {$$ = make_syntax_node(WHILE, $2, $4);}
+    | REPEAT stmt_list UNTIL expr  {$$ = make_syntax_node(REPEAT, $2, $4);}
+    | FUNCTION ID '(' param_list ')' ':' type_desc  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO!
+    | PROCEDURE ID '(' param_list ')'  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
+    | FUNCTION ID '(' param_list ')' ':' type_desc block  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
+    | PROCEDURE ID '(' param_list ')' block  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
+    | RETURN expr  {$$ = make_syntax_node(RETURN, $2);}
+    | RETURN  {$$ = make_syntax_node(RETURN, NULL);}
     ;
 
 /* */
 elif_clause : {$$ = NULL;} 
-    | ELIF expr THEN stmt_list elif_clause
+    | ELIF expr THEN stmt_list elif_clause {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
     ;
 
 /* */
 else_clause : {$$ = NULL;} 
-    | ELSE stmt_list
+    | ELSE stmt_list {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
     ;
 
 /* */
@@ -182,3 +182,6 @@ void iterate_and_reverse (syntax_node_ptr cur, void (*operator)(syntax_node_ptr)
     }
 }
 
+int is_same_type(type_desc_ptr first, type_desc_ptr second) {
+    return first == second;
+}

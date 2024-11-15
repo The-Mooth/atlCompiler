@@ -1,10 +1,6 @@
 #include "definitions.h"
 #include "globals.h"
 
-//current plan: use an array of function pointers
-//over a switch statement, because its interesting
-//slight cost in performance though
-//and readability
 
 syntax_node_ptr make_syntax_node(node_type type, ...) {
 

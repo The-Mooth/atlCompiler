@@ -36,6 +36,9 @@
   int find_id(char* name);
   void print_scope();
   
+  //syntax_tree.c
+  syntax_node_ptr make_syntax_node(node_type type, ...);
+
   //parser.c
   int yyparse(void);
 

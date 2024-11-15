@@ -9,7 +9,7 @@
 %}
 
 %option nounput
-
+%option noinput
 %x COMMENT
 
 

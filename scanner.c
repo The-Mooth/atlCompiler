@@ -658,8 +658,9 @@ char *yytext;
 //token definitions from yacc
 #include "y.tab.h"
 #line 661 "lex.yy.c"
+#define YY_NO_INPUT 1
 
-#line 663 "lex.yy.c"
+#line 664 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -888,7 +889,7 @@ YY_DECL
 */
 
 
-#line 892 "lex.yy.c"
+#line 893 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1143,7 +1144,7 @@ YY_RULE_SETUP
 #line 121 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 1147 "lex.yy.c"
+#line 1148 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
