@@ -22,18 +22,14 @@ int main(int argc, char** argv)
     switch(opt) 
     {
       case 'd':
-        debug = TRUE;
-        
-
-      case 'v':
-        
+        debug = TRUE;       
       
       case 'o':
         asm_output = optarg;
         break;
 
       default:
-        fprintf (stderr, "usage: %s [-d] [-v] [-o file] file\n", argv[0]);
+        fprintf (stderr, "usage: %s [-d] [-o file] file\n", argv[0]);
         exit(1);
     }
     char* src_name = argv[optind];

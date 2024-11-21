@@ -42,6 +42,8 @@ typedef struct syntax_node* syntax_node_ptr;
 typedef union Format{
   struct Block{
     syntax_node_ptr stmt_list;
+    syntax_node_ptr dec_list;
+    char* name;
   } block;
   struct Program{
     syntax_node_ptr block;

@@ -25,9 +25,12 @@ write read (?)
 or if  
 IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPEAT RETURN PROGRAM VARIABLE FUNCTION PROCEDURE
 */
+
 %start PROGRAM
  
- //inventory of tokens
+ //inventory of tokens (remember, caps = leaf token)
+
+/* %token program */
 %token  DO IF IS OF OR AND END NOT ELSE THEN TYPE
 %token YYBEGIN WHILE ARRAY ELIF UNTIL VALUE
 %token REPEAT RETURN
@@ -36,7 +39,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 /* precedence is in ascending order */
 %nonassoc ASSIGN
 %right '='
-%nonassoc <s_value> REL_OP 
+%nonassoc REL_OP 
 %left '+' '-'
 %left <c_value> MUL_OP
 
@@ -52,12 +55,14 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %type<i_value> int_const
 %type<syntax_node> var_dec
 %type<id_value> var
-%type<syntax_node> dec_list
+%type<syntax_node> type_dec_list
 %type<syntax_node> var_dec_list
 
 /* leaf token typing*/
 %type<i_value> NUMBER
 %type<s_value> ID
+%type<i_value> REL_OP 
+%type<i_value> MUL_OP
 
 /* to be implemented 
 %type<s_value> STRING 
@@ -67,22 +72,20 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 
 /* grammar rules */
 %%
-PROGRAM : PROGRAM ID {init_symtab($2);} block '.' { 
-
-}
+PROGRAM : PROGRAM ID {init_symtab($2); make_syntax_node(PROGRAM, NULL);} block '.' 
 
 /* */
-block : dec_list YYBEGIN stmt_list END ID {
-}
+block : type_dec_list YYBEGIN stmt_list END ID {$$ = make_syntax_node(BLOCK, $3, $1);}
 
  
 /* */
 stmt_list : {$$ = NULL;} 
-    | stmt
-    | stmt_list stmt
+    | stmt {$$ = $1;}
+    | stmt_list stmt {$2->next_node = $1;
+        $$ = $2;}
     ;
 
-/* */
+/* whenever list returns, call reverse()*/
 stmt : var ASSIGN expr {$$ = make_syntax_node(ASSIGN, $1, $3);}
     | IF expr THEN stmt_list elif_clause else_clause  {$$ = make_syntax_node(IF, $2, $4, $5, $6);}
     | WHILE expr DO stmt_list  {$$ = make_syntax_node(WHILE, $2, $4);}
@@ -96,26 +99,21 @@ stmt : var ASSIGN expr {$$ = make_syntax_node(ASSIGN, $1, $3);}
     ;
 
 /* */
-elif_clause : {$$ = NULL;} 
-    | ELIF expr THEN stmt_list elif_clause {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
-    ;
-
-/* */
 else_clause : {$$ = NULL;} 
     | ELSE stmt_list {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
     ;
 
 /* */
-expr : expr '+' expr
-    | expr '-' expr
-    | '-' expr
-    | expr MUL_OP expr
-    | expr REL_OP expr
-    | '(' expr ')'
-    | ID '(' aparam_list ')'
-    | var 
-    | STRING
-    | int_const
+expr : expr '+' expr {$$ = make_syntax_node(BINARY, '+', $1, $3, NULL);}
+    | expr '-' expr {$$ = make_syntax_node(BINARY, '-', $1, $3, NULL);}
+    | '-' expr {$$ = make_syntax_node(UNARY);}
+    | expr MUL_OP expr {$$ = make_syntax_node(BINARY, $2, $1, $3, NULL);}
+    | expr REL_OP expr {$$ = make_syntax_node(BINARY, $2, $1, $3, NULL);}
+    | '(' expr ')' {$$ = make_syntax_node(PAREN, $2);}
+    | ID '(' aparam_list ')' {$$ = make_syntax_node(FUNCTIONEX);}//TODO
+    | var  {$$ = make_syntax_node(SIMPLE, $1);}
+    | STRING {$$ = make_syntax_node(STRING);}
+    | int_const {$$ = make_syntax_node(CONS, $1);}
     ;
 
 /* */
@@ -124,14 +122,14 @@ int_const : NUMBER  {$$ = $1;}
     ;
 
 /* */
-dec_list : {$$ = NULL;}
-    |   dec
-    |   dec_list ',' dec
+type_dec_list : {$$ = NULL;}
+    |   type_dec
+    |   type_dec_list ',' type_dec
     ;
 
 /* check that id is a type, then assign typing to var_dec_list*/
-dec : var_dec_list ':' ID
-    |   ID is var_dec
+type_dec : var_dec_list ':' ID
+    |   ID IS var_dec
     ;
 
 /* */
@@ -147,7 +145,7 @@ var_dec : ID {/* make sure not in symtab (just cur level?), process typing later
 
 /* check if id in symtab. if not, error.*/
 var : ID  {}
-  | ID '[' NUMBER ']'
+  | ID '[' NUMBER ']' 
   ;
 
 

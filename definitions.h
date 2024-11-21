@@ -43,6 +43,8 @@
   int yyparse(void);
 
   //scanner.c
+  #define YY_DECL int yylex_internal()
+  int yylex_internal(void);
   int yylex(void);
 
   //util.c

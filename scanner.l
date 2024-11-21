@@ -3,9 +3,18 @@
 
 #include "definitions.h"
 #include "globals.h"
-
+int handle_rel_op(char* op);
 //token definitions from yacc
 #include "y.tab.h"
+
+// verbose (?) mode, print each line as it comes
+int yylex(void) {
+  int lex_state = yylex_internal();
+  debug_printf("Token / %s / received", yytext);
+  return lex_state;
+}
+
+
 %}
 
 %option nounput
@@ -58,7 +67,7 @@ WHITESPACE [ \t]+
   return(MUL_OP);
 }
 
-"=="|">="|"<="|"<"|">" {yylval.s_value = strdup(yytext);
+"=="|">="|"<="|"<"|">" {yylval.i_value = handle_rel_op(yytext);
   return(REL_OP);
 }
 
@@ -115,14 +124,31 @@ WHITESPACE [ \t]+
 {DIGIT}+ { yylval.i_value = atoi(yytext);
   return NUMBER;
 }
+
+
 . yyerror("Unrecognized Token: %s", yytext);//does yyerror take formatted arguments?
 
 %%
 
 //user code section
 
+int handle_rel_op(char* op){
 
-//manage nested comments?
+  if (!strncmp(op, "==", 2)) {
+    return 247;
+  }
+
+  if (!strncmp(op, ">=", 2)) {
+    return 242;
+  }
+
+  if (!strncmp(op, "<=", 2)) {
+    return 243;
+  }
+
+  return op[0];
+
+}
 
 
 #ifdef TESTSCAN

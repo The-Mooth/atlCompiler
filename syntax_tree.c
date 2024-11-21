@@ -117,6 +117,8 @@ possible solutions for structuring syntax tree:
 
 void handle_BLOCK(syntax_node_ptr node, va_list args) {
   node->data.fmt.block.stmt_list = va_arg(args, syntax_node_ptr);
+  node->data.fmt.block.dec_list = va_arg(args, syntax_node_ptr);
+  node->data.fmt.block.name = va_arg(args, char*);
 }
 
 void handle_PROGRAM(syntax_node_ptr node, va_list args) {
