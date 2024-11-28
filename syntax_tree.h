@@ -85,8 +85,6 @@ typedef union Statement{
   struct Elif{
     syntax_node_ptr expr;
     syntax_node_ptr then;
-    syntax_node_ptr next_elif;
-    syntax_node_ptr else_node;
   } elif;
 }statement;
 

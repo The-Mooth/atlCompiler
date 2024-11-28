@@ -30,25 +30,27 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
  
  //inventory of tokens (remember, caps = leaf token)
 
-/* %token program */
 %token  DO IF IS OF OR AND END NOT ELSE THEN TYPE
 %token YYBEGIN WHILE ARRAY ELIF UNTIL VALUE
 %token REPEAT RETURN
 %token VARIABLE FUNCTION PROCEDURE
 %token ID NUMBER STRING
+
 /* precedence is in ascending order */
 %nonassoc ASSIGN
 %right '='
 %nonassoc REL_OP 
 %left '+' '-'
-%left <c_value> MUL_OP
+%left MUL_OP
 
 %left UMINUS
+
 
 /* format token typing*/
 %type<syntax_node> block
 %type<syntax_node> stmt_list
 %type<syntax_node> stmt
+%type<syntax_node> elif_clause_list
 %type<syntax_node> elif_clause
 %type<syntax_node> else_clause
 %type<syntax_node> expr
@@ -57,6 +59,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %type<id_value> var
 %type<syntax_node> type_dec_list
 %type<syntax_node> var_dec_list
+%type<syntax_node> aparam_list
 
 /* leaf token typing*/
 %type<i_value> NUMBER
@@ -72,22 +75,40 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 
 /* grammar rules */
 %%
-PROGRAM : PROGRAM ID {init_symtab($2); make_syntax_node(PROGRAM, NULL);} block '.' 
+PROGRAM : ID {init_symtab($1); root = make_syntax_node(PROGRAM, NULL);} block {root->data.fmt.program.block = $2;}'.' 
 
 /* */
 block : type_dec_list YYBEGIN stmt_list END ID {$$ = make_syntax_node(BLOCK, $3, $1);}
 
- 
 /* */
-stmt_list : {$$ = NULL;} 
-    | stmt {$$ = $1;}
-    | stmt_list stmt {$2->next_node = $1;
-        $$ = $2;}
+type_dec_list : {$$ = NULL;}
+    | type_dec
+    | type_dec_list ',' type_dec
     ;
 
-/* whenever list returns, call reverse()*/
+/* check that id is a type, then assign typing to var_dec_list*/
+type_dec : var_dec_list ':' ID
+    |   ID IS var_dec
+    ;
+
+/* */
+var_dec_list : var_dec
+    | var_dec_list ',' var_dec
+    ;
+
+
+/* for declaring IDs. check for ik_type*/
+var_dec : ID {/* make sure not in symtab (just cur level?), process typing later*/ }
+    ;
+
+/*to be reversed*/
+stmt_list : {$$ = NULL;} 
+    | stmt_list stmt {$2->next_node = $1; $$ = $2;}
+    ;
+
+/* whenever list returns, call reverse()?*/
 stmt : var ASSIGN expr {$$ = make_syntax_node(ASSIGN, $1, $3);}
-    | IF expr THEN stmt_list elif_clause else_clause  {$$ = make_syntax_node(IF, $2, $4, $5, $6);}
+    | IF expr THEN stmt_list elif_clause_list else_clause  {$$ = make_syntax_node(IF, $2, $4, $5, $6);}
     | WHILE expr DO stmt_list  {$$ = make_syntax_node(WHILE, $2, $4);}
     | REPEAT stmt_list UNTIL expr  {$$ = make_syntax_node(REPEAT, $2, $4);}
     | FUNCTION ID '(' param_list ')' ':' type_desc  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO!
@@ -98,15 +119,21 @@ stmt : var ASSIGN expr {$$ = make_syntax_node(ASSIGN, $1, $3);}
     | RETURN  {$$ = make_syntax_node(RETURN, NULL);}
     ;
 
-/* */
+
+elif_clause_list : {$$ = NULL;}
+    | elif_clause_list elif_clause {$2->next_node = $1; $$ = $2;}
+    ;
+
+elif_clause : ELIF expr THEN stmt_list {$$ = make_syntax_node(ELIF, $3, $5);}
+
 else_clause : {$$ = NULL;} 
-    | ELSE stmt_list {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
+    | ELSE stmt_list {$$ = make_syntax_node(ELSE, $2);}
     ;
 
 /* */
 expr : expr '+' expr {$$ = make_syntax_node(BINARY, '+', $1, $3, NULL);}
     | expr '-' expr {$$ = make_syntax_node(BINARY, '-', $1, $3, NULL);}
-    | '-' expr {$$ = make_syntax_node(UNARY);}
+    | '-' expr {$$ = make_syntax_node(UNARY);}                                      %prec UMINUS
     | expr MUL_OP expr {$$ = make_syntax_node(BINARY, $2, $1, $3, NULL);}
     | expr REL_OP expr {$$ = make_syntax_node(BINARY, $2, $1, $3, NULL);}
     | '(' expr ')' {$$ = make_syntax_node(PAREN, $2);}
@@ -114,6 +141,7 @@ expr : expr '+' expr {$$ = make_syntax_node(BINARY, '+', $1, $3, NULL);}
     | var  {$$ = make_syntax_node(SIMPLE, $1);}
     | STRING {$$ = make_syntax_node(STRING);}
     | int_const {$$ = make_syntax_node(CONS, $1);}
+    //TODO: add logic operators (and, or, etc)
     ;
 
 /* */
@@ -121,29 +149,7 @@ int_const : NUMBER  {$$ = $1;}
     | '-' NUMBER    {$$ = $2 * -1;}
     ;
 
-/* */
-type_dec_list : {$$ = NULL;}
-    |   type_dec
-    |   type_dec_list ',' type_dec
-    ;
-
-/* check that id is a type, then assign typing to var_dec_list*/
-type_dec : var_dec_list ':' ID
-    |   ID IS var_dec
-    ;
-
-/* */
-var_dec_list : {$$ = NULL;}
-    | var_dec 
-    | var_dec_list ',' var_dec
-    ;
-
-
-/* check for ik_type*/
-var_dec : ID {/* make sure not in symtab (just cur level?), process typing later*/ }
-    ;
-
-/* check if id in symtab. if not, error.*/
+/* for IDs already declared. check if id in symtab. if not, error.*/
 var : ID  {}
   | ID '[' NUMBER ']' 
   ;

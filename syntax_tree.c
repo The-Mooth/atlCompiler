@@ -166,8 +166,6 @@ void handle_ELSE(syntax_node_ptr node, va_list args) {
 void handle_ELIF(syntax_node_ptr node, va_list args) {
   node->data.stmt.elif.expr = va_arg(args, syntax_node_ptr);
   node->data.stmt.elif.then= va_arg(args, syntax_node_ptr);
-  node->data.stmt.elif.next_elif = va_arg(args, syntax_node_ptr);
-  node->data.stmt.elif.else_node = va_arg(args, syntax_node_ptr);
 }
 
 void handle_BINARY(syntax_node_ptr node, va_list args) {

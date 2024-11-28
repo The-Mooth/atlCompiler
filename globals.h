@@ -39,3 +39,5 @@ EXTERN type_desc_ptr err_ptr;
 EXTERN id_info_ptr cur_procedure;
 EXTERN char* cur_procedure_name;
 EXTERN int proc_num init(0);
+
+EXTERN syntax_node_ptr root init(NULL);
