@@ -82,15 +82,25 @@ void destroy_scope() {
 
 //returns scope of id, or -2 if not found
 //remember, base scope is -1, so -2 is an error return
-int find_id(char* name) {
-  int i;
-  for (i = cur_scope; i >= -1; i--) {
+int find_scope(char* name) {
+  for (int i = cur_scope; i >= -1; i--) {
     if (kv_find(scope[i], name)) {
       return i;
     }
   }
   return -2;
 }
+
+//returns id_info_ptr if found, otherwise null
+id_info_ptr find_id(char* name) {
+  id_info_ptr result = NULL;
+  for(int i = cur_scope; i>= -1; i--) {
+    result = kv_find(scope[i], name);
+    if (result) {return result;}
+  }
+  return NULL;
+}
+
 
 void print_scope() {
 

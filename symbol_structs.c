@@ -27,7 +27,7 @@ type_desc_ptr make_type_desc(type_kind tk_kind, int size, int low, int high, typ
 //to find the correct input for this function,
 //go to the switch, and find the input order
 //of the variable args for your id_kind
-id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr id_list, ...){
+id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr next, ...){
 
   //init and populate universal parameters
   id_info_ptr new_ptr = malloc(sizeof(id_info));
@@ -35,11 +35,11 @@ id_info_ptr make_id_info(char* name, id_kind id, type_desc_ptr desc, id_info_ptr
   new_ptr->name = name;
   new_ptr->id = id;
   new_ptr->desc = desc;
-  new_ptr->id_list = id_list;
+  new_ptr->next = next;
   
   //using va_args, populate specific fields
   va_list args;
-  va_start(args, id_list);
+  va_start(args, next);
   switch(id){
 
     case ik_VAR:

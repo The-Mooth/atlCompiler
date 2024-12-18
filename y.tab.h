@@ -31,8 +31,6 @@
 #define MUL_OP 284
 #define UMINUS 285
 #define aparam_list 286
-#define param_list 287
-#define type_desc 288
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

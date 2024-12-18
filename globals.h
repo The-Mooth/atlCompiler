@@ -31,6 +31,10 @@ EXTERN int line_no init(1);
 EXTERN int cur_scope init(-1);
 
 
+//level and offset globals??
+EXTERN int offset init(0);
+
+
 EXTERN type_desc_ptr int_ptr;
 EXTERN type_desc_ptr bool_ptr;
 EXTERN type_desc_ptr string_ptr;

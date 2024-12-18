@@ -70,14 +70,14 @@ typedef struct id_info {
   id_kind id;
   //if function, the type is the return type
   type_desc_ptr desc;
-  //if function, id_list is 1st parameter
-  //if parameter, id_list is next parameter
-  //if var declaration, id_list is next var declared on line
+  //if function, next is 1st parameter
+  //if parameter, next is next parameter
+  //if var declaration, next is next var declared on line
   //ex: int foo, bar, fizz
-  //if id kind ik_list, id_list is 1st var on list
+  //if id kind ik_list, next is 1st var on list
   //if type or const(?), it's null
   //unless I decide to do multiple type declarations
-  id_info_ptr id_list;
+  id_info_ptr next;
 
   id_union u;
 
