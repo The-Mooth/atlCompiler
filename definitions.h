@@ -33,7 +33,7 @@
   void insert_id(id_info_ptr id);
   void new_scope();
   void destroy_scope();
-  int find_id(char* name);
+  id_info_ptr find_id(char* name);
   void print_scope();
   
   //syntax_tree.c

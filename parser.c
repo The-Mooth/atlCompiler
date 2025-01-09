@@ -500,7 +500,7 @@ static YYINT  *yylexp = 0;
 
 static YYINT  *yylexemes = 0;
 #endif /* YYBTYACC */
-#line 167 "atl.y"
+#line 168 "atl.y"
 
 /* c code */
 
@@ -519,12 +519,6 @@ type_desc_ptr check_descriptor(char* type) {
     return descriptor->desc;
 }
 
-int is_declared(char* identifier){
-    if (find_id(identifier) == -2) {
-        return 0;
-    }
-    return 1;
-}
 
 void assign_typing_and_insert(id_info_ptr cur, type_desc_ptr assignment) {
     cur->desc = assignment;
@@ -558,7 +552,7 @@ syntax_node_ptr reverse(syntax_node_ptr first){
 int is_same_type(type_desc_ptr first, type_desc_ptr second) {
     return first == second;
 }
-#line 562 "y.tab.c"
+#line 556 "y.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1231,174 +1225,179 @@ yyreduce:
 case 1:
 #line 84 "atl.y"
 	{init_symtab(yystack.l_mark[0].s_value); root = make_syntax_node(PROGRAM, NULL);}
-#line 1235 "y.tab.c"
+#line 1229 "y.tab.c"
 break;
 case 2:
 #line 84 "atl.y"
 	{root->data.fmt.program.block = yystack.l_mark[0].syntax_node;}
-#line 1240 "y.tab.c"
+#line 1234 "y.tab.c"
 break;
 case 4:
 #line 87 "atl.y"
 	{yyval.syntax_node = make_syntax_node(BLOCK, yystack.l_mark[-2].syntax_node, NULL, yystack.l_mark[0].s_value);}
-#line 1245 "y.tab.c"
+#line 1239 "y.tab.c"
 break;
 case 5:
 #line 89 "atl.y"
 	{yyval.s_value = NULL;}
-#line 1250 "y.tab.c"
+#line 1244 "y.tab.c"
 break;
 case 8:
 #line 95 "atl.y"
 	{assign_typing_and_insert(yystack.l_mark[-2].id_value, check_descriptor(yystack.l_mark[0].s_value));}
-#line 1255 "y.tab.c"
+#line 1249 "y.tab.c"
 break;
 case 10:
 #line 100 "atl.y"
 	{yyval.id_value = yystack.l_mark[0].id_value;}
-#line 1260 "y.tab.c"
+#line 1254 "y.tab.c"
 break;
 case 11:
 #line 101 "atl.y"
 	{yystack.l_mark[0].id_value->next = yystack.l_mark[-2].id_value; yyval.id_value = yystack.l_mark[0].id_value;}
-#line 1265 "y.tab.c"
+#line 1259 "y.tab.c"
 break;
 case 12:
 #line 104 "atl.y"
 	{yyval.id_value = make_id_info(yystack.l_mark[0].s_value, ik_VAR, NULL, NULL, 27, 27);}
-#line 1270 "y.tab.c"
+#line 1264 "y.tab.c"
 break;
 case 13:
 #line 107 "atl.y"
 	{yyval.syntax_node = reverse(yystack.l_mark[0].syntax_node);}
-#line 1275 "y.tab.c"
+#line 1269 "y.tab.c"
 break;
 case 14:
 #line 110 "atl.y"
 	{yyval.syntax_node = NULL;}
-#line 1280 "y.tab.c"
+#line 1274 "y.tab.c"
 break;
 case 15:
 #line 111 "atl.y"
 	{yystack.l_mark[0].syntax_node->next_node = yystack.l_mark[-1].syntax_node; yyval.syntax_node = yystack.l_mark[0].syntax_node;}
-#line 1285 "y.tab.c"
+#line 1279 "y.tab.c"
 break;
 case 16:
 #line 115 "atl.y"
 	{yyval.syntax_node = make_syntax_node(ASSIGN, yystack.l_mark[-2].id_value, yystack.l_mark[0].syntax_node);}
-#line 1290 "y.tab.c"
+#line 1284 "y.tab.c"
 break;
 case 17:
 #line 116 "atl.y"
 	{yyval.syntax_node = make_syntax_node(IF, yystack.l_mark[-4].syntax_node, yystack.l_mark[-2].syntax_node, yystack.l_mark[-1].syntax_node, yystack.l_mark[0].syntax_node);}
-#line 1295 "y.tab.c"
+#line 1289 "y.tab.c"
 break;
 case 18:
 #line 117 "atl.y"
 	{yyval.syntax_node = make_syntax_node(WHILE, yystack.l_mark[-2].syntax_node, yystack.l_mark[0].syntax_node);}
-#line 1300 "y.tab.c"
+#line 1294 "y.tab.c"
 break;
 case 19:
 #line 118 "atl.y"
 	{yyval.syntax_node = make_syntax_node(REPEAT, yystack.l_mark[-2].syntax_node, yystack.l_mark[0].syntax_node);}
-#line 1305 "y.tab.c"
+#line 1299 "y.tab.c"
 break;
 case 20:
 #line 125 "atl.y"
 	{yyval.syntax_node = make_syntax_node(RETURN, yystack.l_mark[0].syntax_node);}
-#line 1310 "y.tab.c"
+#line 1304 "y.tab.c"
 break;
 case 21:
 #line 126 "atl.y"
 	{yyval.syntax_node = make_syntax_node(RETURN, NULL);}
-#line 1315 "y.tab.c"
+#line 1309 "y.tab.c"
 break;
 case 22:
 #line 130 "atl.y"
 	{yyval.syntax_node = NULL;}
-#line 1320 "y.tab.c"
+#line 1314 "y.tab.c"
 break;
 case 23:
 #line 131 "atl.y"
 	{yystack.l_mark[0].syntax_node->next_node = yystack.l_mark[-1].syntax_node; yyval.syntax_node = yystack.l_mark[0].syntax_node;}
-#line 1325 "y.tab.c"
+#line 1319 "y.tab.c"
 break;
 case 24:
 #line 134 "atl.y"
 	{yyval.syntax_node = make_syntax_node(ELIF, yystack.l_mark[-2].syntax_node, yystack.l_mark[0].syntax_node);}
-#line 1330 "y.tab.c"
+#line 1324 "y.tab.c"
 break;
 case 25:
 #line 136 "atl.y"
 	{yyval.syntax_node = NULL;}
-#line 1335 "y.tab.c"
+#line 1329 "y.tab.c"
 break;
 case 26:
 #line 137 "atl.y"
 	{yyval.syntax_node = make_syntax_node(ELSE, yystack.l_mark[0].syntax_node);}
-#line 1340 "y.tab.c"
+#line 1334 "y.tab.c"
 break;
 case 27:
 #line 141 "atl.y"
 	{yyval.syntax_node = make_syntax_node(BINARY, '+', yystack.l_mark[-2].syntax_node, yystack.l_mark[0].syntax_node, NULL);}
-#line 1345 "y.tab.c"
+#line 1339 "y.tab.c"
 break;
 case 28:
 #line 142 "atl.y"
 	{yyval.syntax_node = make_syntax_node(BINARY, '-', yystack.l_mark[-2].syntax_node, yystack.l_mark[0].syntax_node, NULL);}
-#line 1350 "y.tab.c"
+#line 1344 "y.tab.c"
 break;
 case 29:
 #line 143 "atl.y"
 	{yyval.syntax_node = make_syntax_node(UNARY);}
-#line 1355 "y.tab.c"
+#line 1349 "y.tab.c"
 break;
 case 30:
 #line 144 "atl.y"
 	{yyval.syntax_node = make_syntax_node(BINARY, yystack.l_mark[-1].i_value, yystack.l_mark[-2].syntax_node, yystack.l_mark[0].syntax_node, NULL);}
-#line 1360 "y.tab.c"
+#line 1354 "y.tab.c"
 break;
 case 31:
 #line 145 "atl.y"
 	{yyval.syntax_node = make_syntax_node(BINARY, yystack.l_mark[-1].i_value, yystack.l_mark[-2].syntax_node, yystack.l_mark[0].syntax_node, NULL);}
-#line 1365 "y.tab.c"
+#line 1359 "y.tab.c"
 break;
 case 32:
 #line 146 "atl.y"
 	{yyval.syntax_node = make_syntax_node(PAREN, yystack.l_mark[-1].syntax_node);}
-#line 1370 "y.tab.c"
+#line 1364 "y.tab.c"
 break;
 case 34:
 #line 148 "atl.y"
 	{yyval.syntax_node = make_syntax_node(SIMPLE, yystack.l_mark[0].id_value);}
-#line 1375 "y.tab.c"
+#line 1369 "y.tab.c"
 break;
 case 35:
 #line 149 "atl.y"
 	{yyval.syntax_node = make_syntax_node(STRING);}
-#line 1380 "y.tab.c"
+#line 1374 "y.tab.c"
 break;
 case 36:
 #line 150 "atl.y"
 	{yyval.syntax_node = make_syntax_node(CONS, yystack.l_mark[0].i_value);}
-#line 1385 "y.tab.c"
+#line 1379 "y.tab.c"
 break;
 case 37:
 #line 155 "atl.y"
 	{yyval.i_value = yystack.l_mark[0].i_value;}
-#line 1390 "y.tab.c"
+#line 1384 "y.tab.c"
 break;
 case 38:
 #line 156 "atl.y"
 	{yyval.i_value = yystack.l_mark[0].i_value * -1;}
-#line 1395 "y.tab.c"
+#line 1389 "y.tab.c"
 break;
 case 39:
 #line 160 "atl.y"
 	{id_info_ptr lookup = find_id(yystack.l_mark[0].s_value); yyval.id_value = lookup ? lookup : make_id_info(yystack.l_mark[0].s_value, ik_VAR, err_ptr, NULL);}
-#line 1400 "y.tab.c"
+#line 1394 "y.tab.c"
 break;
-#line 1402 "y.tab.c"
+case 40:
+#line 161 "atl.y"
+	{id_info_ptr lookup = find_id(yystack.l_mark[-3].s_value); yyval.id_value = lookup ? lookup : make_id_info(yystack.l_mark[-3].s_value, ik_VAR, err_ptr, NULL);}
+#line 1399 "y.tab.c"
+break;
+#line 1401 "y.tab.c"
     default:
         break;
     }

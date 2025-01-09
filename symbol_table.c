@@ -94,7 +94,7 @@ int find_scope(char* name) {
 //returns id_info_ptr if found, otherwise null
 id_info_ptr find_id(char* name) {
   id_info_ptr result = NULL;
-  for(int i = cur_scope; i>= -1; i--) {
+  for(int i = cur_scope; i >= -1; i--) {
     result = kv_find(scope[i], name);
     if (result) {return result;}
   }

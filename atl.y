@@ -158,7 +158,8 @@ int_const : NUMBER  {$$ = $1;}
 
 /* for IDs already declared. check if id in symtab. if not, error.*/
 var : ID  {id_info_ptr lookup = find_id($1); $$ = lookup ? lookup : make_id_info($1, ik_VAR, err_ptr, NULL);}
-  | ID '[' NUMBER ']' 
+  | ID '[' NUMBER ']' {id_info_ptr lookup = find_id($1); $$ = lookup ? lookup : make_id_info($1, ik_VAR, err_ptr, NULL);}
+
   ;
 
 
@@ -182,12 +183,6 @@ type_desc_ptr check_descriptor(char* type) {
     return descriptor->desc;
 }
 
-int is_declared(char* identifier){
-    if (find_id(identifier) == -2) {
-        return 0;
-    }
-    return 1;
-}
 
 void assign_typing_and_insert(id_info_ptr cur, type_desc_ptr assignment) {
     cur->desc = assignment;
