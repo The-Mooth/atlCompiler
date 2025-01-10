@@ -13,7 +13,7 @@ install: $(PROJECT)
 	cp $(PROJECT) $(BIN)
 
 parser.c: atl.y
-	byacc -d atl.y
+	byacc -v -d atl.y 
 	mv y.tab.c parser.c
 
 scanner.c: scanner.l y.tab.h

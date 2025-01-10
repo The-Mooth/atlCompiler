@@ -88,7 +88,7 @@ block : type_dec_list YYBEGIN r_stmt_list END ID {$$ = make_syntax_node(BLOCK, $
 
 type_dec_list : {$$ = NULL;}
     | type_dec 
-    | type_dec_list type_dec ',' type_dec
+    | type_dec_list ',' type_dec
     ;
 
 /* check that id is a type, then assign typing to var_dec_list. ID IS ID for declaring arrays*/
@@ -144,7 +144,7 @@ expr : expr '+' expr {$$ = make_syntax_node(BINARY, '+', $1, $3, NULL);}
     | expr MUL_OP expr {$$ = make_syntax_node(BINARY, $2, $1, $3, NULL);}
     | expr REL_OP expr {$$ = make_syntax_node(BINARY, $2, $1, $3, NULL);}
     | '(' expr ')' {$$ = make_syntax_node(PAREN, $2);}
-    | /* ID '(' aparam_list ')' {$$ = make_syntax_node(FUNCTIONEX);}//TODO */
+    /*| ID '(' aparam_list ')' {$$ = make_syntax_node(FUNCTIONEX);}//TODO */
     | var  {$$ = make_syntax_node(SIMPLE, $1);}
     | STRING {$$ = make_syntax_node(STRING);}
     | int_const {$$ = make_syntax_node(CONS, $1);}
