@@ -37,7 +37,16 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %token ID NUMBER STRING
 
 /* precedence is in ascending order */
-%nonassoc ASSIGN
+%left STMT
+%left IF
+%left WHILE
+%left REPEAT
+%nonassoc RETURN
+%nonassoc THEN
+%nonassoc ELSE
+%nonassoc ELIF
+%left ID
+%nonassoc ASSIGN 
 %right '='
 %nonassoc REL_OP 
 %left '+' '-'
@@ -104,11 +113,10 @@ var_dec_list : var_dec {$$ = $1;}
 var_dec : ID {$$ = make_id_info($1, ik_VAR, NULL, NULL, 27, 27);}
 ;
 
-r_stmt_list : stmt_list {$$ = reverse($1);}
+r_stmt_list : stmt_list {$$ = reverse($1);} %prec STMT
 
 /*to be reversed*/
-stmt_list : {$$ = NULL;} 
-    | stmt_list stmt {$2->next_node = $1; $$ = $2;}
+stmt_list : stmt_list stmt {$2->next_node = $1; $$ = $2;}
     ;
 
 /* whenever list returns, call reverse()?*/
@@ -131,10 +139,10 @@ elif_clause_list : {$$ = NULL;}
     | elif_clause_list elif_clause {$2->next_node = $1; $$ = $2;}
     ;
 
-elif_clause : ELIF expr THEN r_stmt_list {$$ = make_syntax_node(ELIF, $2, $4);}
+elif_clause : ELIF expr THEN r_stmt_list {$$ = make_syntax_node(ELIF, $2, $4);} 
 
-else_clause : {$$ = NULL;} 
-    | ELSE r_stmt_list {$$ = make_syntax_node(ELSE, $2);}
+else_clause : {$$ = NULL;} %prec THEN
+    | ELSE r_stmt_list {$$ = make_syntax_node(ELSE, $2);} 
     ;
 
 /* */
@@ -153,7 +161,6 @@ expr : expr '+' expr {$$ = make_syntax_node(BINARY, '+', $1, $3, NULL);}
 
 /* */
 int_const : NUMBER  {$$ = $1;}
-    | '-' NUMBER    {$$ = $2 * -1;}
     ;
 
 /* for IDs already declared. check if id in symtab. if not, error.*/

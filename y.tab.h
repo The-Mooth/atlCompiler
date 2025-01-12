@@ -26,11 +26,12 @@
 #define ID 279
 #define NUMBER 280
 #define STRING 281
-#define ASSIGN 282
-#define REL_OP 283
-#define MUL_OP 284
-#define UMINUS 285
-#define aparam_list 286
+#define STMT 282
+#define ASSIGN 283
+#define REL_OP 284
+#define MUL_OP 285
+#define UMINUS 286
+#define aparam_list 287
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

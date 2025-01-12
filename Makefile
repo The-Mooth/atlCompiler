@@ -1,6 +1,6 @@
 PROJECT = atl
 OBJS = main.o parser.o scanner.o symbol_structs.o symbol_table.o syntax_tree.o kv_tree.o util.o
-GEN = parser.c scanner.c y.tab.h
+GEN = parser.c scanner.c y.tab.h y.output
 CFLAGS = -g -Wall
 LIBS = -ll
 BIN=/bin
@@ -13,7 +13,7 @@ install: $(PROJECT)
 	cp $(PROJECT) $(BIN)
 
 parser.c: atl.y
-	byacc -v -d atl.y 
+	byacc -dv atl.y 
 	mv y.tab.c parser.c
 
 scanner.c: scanner.l y.tab.h
