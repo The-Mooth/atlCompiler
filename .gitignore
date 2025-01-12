@@ -3,6 +3,7 @@
 #for now
 
 *.o
+*.output
 scanner.o
 parser.o
 testscan
