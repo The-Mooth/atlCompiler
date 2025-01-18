@@ -18,8 +18,8 @@ void yyerror(char* err_msg, ...) {
   errors_found = TRUE;
 
   //prep error format
-  char line_buff[200];
-  char line_buff2[100]; 
+  char line_buff[100];
+  char line_buff2[200]; 
   sprintf(line_buff, "on line: %d in file %s: ", line_no, src_name);
 
   //add error message

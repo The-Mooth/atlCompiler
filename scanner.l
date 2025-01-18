@@ -10,7 +10,7 @@ int handle_rel_op(char* op);
 // verbose (?) mode, print each line as it comes
 int yylex(void) {
   int lex_state = yylex_internal();
-  debug_printf("Token / %s / received", yytext);
+  debug_printf("Token / %s / received\n", yytext);
   return lex_state;
 }
 
@@ -44,7 +44,7 @@ WHITESPACE [ \t]+
 <COMMENT><<EOF>> {yyerror("UNTERMINATED COMMENT");}
 <COMMENT>. {/*in comment: do nothing*/;}
 
-
+[\n] {line_no++;}
 
 \".*\" {
   yylval.s_value = strdup(yytext);
@@ -70,6 +70,8 @@ WHITESPACE [ \t]+
 "=="|">="|"<="|"<"|">" {yylval.i_value = handle_rel_op(yytext);
   return(REL_OP);
 }
+
+"->" return(ASSIGN);
 
 (?i:do) return(DO);
 

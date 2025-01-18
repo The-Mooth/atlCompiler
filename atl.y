@@ -72,8 +72,8 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %type<id_value> var
 %type<id_value> var_dec_list
 
-%type<s_value> type_dec
-%type<s_value> type_dec_list
+%type<id_value> type_dec
+%type<id_value> type_dec_list
 
 /* leaf token typing*/
 %type<i_value> NUMBER
@@ -90,7 +90,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 //TODO: add a r_stmt_list node
 /* grammar rules */
 %%
-PROGRAM : ID {init_symtab($1); root = make_syntax_node(PROGRAM, NULL);} block {root->data.fmt.program.block = $3;}'.' 
+PROGRAM : ID {init_symtab($1); root = make_syntax_node(PROGRAM, NULL);} ';' block {root->data.fmt.program.block = $4;}'.' {debug_printf("end of file reached!\n");} 
 
 /* */
 block : type_dec_list YYBEGIN r_stmt_list END ID {$$ = make_syntax_node(BLOCK, $3, NULL, $5);}
@@ -102,7 +102,7 @@ type_dec_list : {$$ = NULL;}
 
 /* check that id is a type, then assign typing to var_dec_list. ID IS ID for declaring arrays*/
 type_dec : var_dec_list ':' ID {assign_typing_and_insert($1, check_descriptor($3));}
-    var_dec IS ID //make a new type descriptor ??
+    var_dec IS ID {$$ = make_id_info($1, ik_VAR, NULL, NULL, 27, 27);}
     ;
 
 /* */

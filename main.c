@@ -13,6 +13,10 @@ int main(int argc, char** argv)
   extern char getarg (int argc, char **argv, char *optchars);
   extern int optind;
   extern char* optarg;
+  printf("starting project\n");
+  #ifdef TESTSCAN
+    printf("starting testscan\n");
+  #endif
 
   int opt;
   char* asm_output = NULL;
@@ -29,20 +33,25 @@ int main(int argc, char** argv)
         break;
 
       default:
-        fprintf (stderr, "usage: %s [-d] [-o file] file\n", argv[0]);
-        exit(1);
+        fprintf(stderr, "usage: %s [-d] [-o file] file\n", argv[0]);
     }
-    char* src_name = argv[optind];
+    src_name = argv[optind];
 
     //get contents of source file
-    debug_printf("opening input file");
+    debug_printf("opening input file\n");
 
     //for debugging scanner
     #ifdef TESTSCAN
-      yyerror("hello world");
+      printf("end of testscan\n");
+      yyerror("hello world\n");
       exit(0);
     #endif
 
+    if (!src_name){
+      perror("no input file given");
+      exit(1);
+    }
+    
     yyin = fopen(src_name, "r");
     if (yyin == NULL) {
       perror("could not open input file");
@@ -54,7 +63,8 @@ int main(int argc, char** argv)
       asm_output = "atl.out";
     } 
 
-    debug_printf("executable name = %s", asm_output);
+    debug_printf("executable name = %s\n", asm_output);
+
 
     yyout = fopen(asm_output, "w");
     if (yyout == NULL) {
@@ -69,7 +79,7 @@ int main(int argc, char** argv)
     fclose(yyin);
     fclose(yyout);
 
-
+  debug_printf("end on main reached!\n");
 
   }
 
