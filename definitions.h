@@ -40,7 +40,9 @@
   syntax_node_ptr make_syntax_node(node_type type, ...);
 
   //parser.c
+  
   int yyparse(void);
+  #define YYDEBUG 1
 
   //scanner.c
   #define YY_DECL int yylex_internal()

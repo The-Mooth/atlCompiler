@@ -79,21 +79,11 @@ WHITESPACE [ \t]+
 
 (?i:is) return(IS);
 
-(?i:of) return(OF);
-
-(?i:or) return(OR);
-
-(?i:and) return(AND);
-
 (?i:end) return(END);
-
-(?i:not) return(NOT);
 
 (?i:else) return(ELSE);
 
 (?i:then) return(THEN);
-
-(?i:type) return(TYPE);
 
 (?i:array) return(ARRAY);
 
@@ -103,8 +93,6 @@ WHITESPACE [ \t]+
 
 (?i:until) return(UNTIL);
 
-(?i:value) return(VALUE);
-
 (?i:while) return(WHILE);
 
 (?i:repeat) return(REPEAT);
@@ -112,8 +100,6 @@ WHITESPACE [ \t]+
 (?i:return) return(RETURN);
 
 (?i:program) return(PROGRAM);
-
-(?i:variable) return(VARIABLE);
 
 (?i:function) return(FUNCTION);
 
@@ -128,7 +114,7 @@ WHITESPACE [ \t]+
 }
 
 
-. yyerror("Unrecognized Token: %s", yytext);//does yyerror take formatted arguments?
+. yyerror("Unrecognized Token: %s", yytext);
 
 %%
 

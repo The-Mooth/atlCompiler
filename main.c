@@ -72,7 +72,7 @@ int main(int argc, char** argv)
       exit(1);
     }
 
-    debug_printf("calling parser");
+    debug_printf("calling parser/n");
     yyparse();
     
     //close files

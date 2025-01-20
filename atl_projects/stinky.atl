@@ -1,7 +1,7 @@
 stinky ;
-    oof , stinky , lol : int 
+    oof , stinky ,             lol : int 
     begin
-        oof -> 10
-        while (oof >= 0) do oof -> oof - 1
-    end Stinky 
+        oof -> 10;
+        while (oof >= 0) do oof -> oof - 1;
+    end stinky 
 .
