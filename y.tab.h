@@ -20,12 +20,13 @@
 #define FUNCTION 273
 #define PROCEDURE 274
 #define STRING 275
-#define STMT 276
-#define ID 277
-#define ASSIGN 278
-#define REL_OP 279
-#define MUL_OP 280
-#define UMINUS 281
+#define BLOCK 276
+#define STMT 277
+#define ID 278
+#define ASSIGN 279
+#define REL_OP 280
+#define MUL_OP 281
+#define UMINUS 282
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

@@ -13,7 +13,7 @@ install: $(PROJECT)
 	cp $(PROJECT) $(BIN)
 
 parser.c: atl.y
-	byacc -dv atl.y 
+	byacc -dvt atl.y 
 	mv y.tab.c parser.c
 
 scanner.c: scanner.l y.tab.h
@@ -39,7 +39,7 @@ main.o: definitions.h globals.h
 #idk if symbol_structs will depend on globals/defs for now.
 #leaving it for now!
 symbol_structs.o: symbol_structs.h definitions.h globals.h
-#will including symbol_table or symbol_structs
+#will including symbol_table or symbol_struct
 #multiple times cause errors?
 #ex: definitions.h includes symbol_structs already
 #will double check and adjust later.

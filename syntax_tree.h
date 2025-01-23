@@ -9,19 +9,19 @@
 typedef enum node_type {
 
   //format nodes
-  BLOCK,
-  PROGRAM,
-  SUBPROGRAM,
+  fBLOCK,
+  fPROGRAM,
+  fSUBPROGRAM,
 
   //statement nodes
-  ASSIGN,
-  REPEAT,
-  WHILE,
-  FUNCTIONST,
-  RETURN,
-  IF,
-  ELSE,
-  ELIF,
+  stASSIGN,
+  stREPEAT,
+  stWHILE,
+  stFUNCTIONST,
+  stRETURN,
+  stIF,
+  stELSE,
+  stELIF,
 
   //expression nodes
   BINARY,

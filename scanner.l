@@ -10,10 +10,10 @@ int handle_rel_op(char* op);
 // verbose (?) mode, print each line as it comes
 int yylex(void) {
   int lex_state = yylex_internal();
-  debug_printf("Token / %s / received\n", yytext);
+  debug_printf(" Token / %s / received\n", yytext);
   return lex_state;
 }
-
+  
 
 %}
 
@@ -98,8 +98,6 @@ WHITESPACE [ \t]+
 (?i:repeat) return(REPEAT);
 
 (?i:return) return(RETURN);
-
-(?i:program) return(PROGRAM);
 
 (?i:function) return(FUNCTION);
 

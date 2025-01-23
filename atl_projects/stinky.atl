@@ -1,7 +1,10 @@
 stinky ;
     oof , stinky ,             lol : int 
     begin
-        oof -> 10;
-        while (oof >= 0) do oof -> oof - 1;
+        oof -> 10
+        while (oof >= 0) do oof -> oof - 1
+        if 5 + 5 - 7 + 8 / 3
+            then if 8 
+            then return 8
     end stinky 
 .

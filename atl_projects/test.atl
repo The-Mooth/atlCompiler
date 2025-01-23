@@ -1,0 +1,7 @@
+stinky ;
+    oof , stinky ,             lol : int 
+    begin
+        oof -> 10
+        lol -> 11
+    end stinky 
+.

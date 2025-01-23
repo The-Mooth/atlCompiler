@@ -22,87 +22,108 @@ syntax_node_ptr make_syntax_node(node_type type, ...) {
 void choose_node_type(syntax_node_ptr node, va_list args){
 
   switch (node->type) {
-    case BLOCK:
+    case fBLOCK:
       handle_BLOCK(node, args);
+      debug_printf("    AST Node: BLOCK\n");
       break;
 
-    case PROGRAM:
+    case fPROGRAM:
       handle_PROGRAM(node, args);
+      debug_printf("    AST Node: PROGRAM\n");
       break;
         
-    case SUBPROGRAM:
+    case fSUBPROGRAM:
       handle_SUBPROGRAM(node, args);
+      debug_printf("    AST Node: SUBPROGRAM\n");
       break;
         
-    case ASSIGN:
+    case stASSIGN:
       handle_ASSIGN(node, args);
+      debug_printf("    AST Node: ASSIGN\n");
       break;
         
-    case REPEAT:
+    case stREPEAT:
       handle_REPEAT(node, args);
+      debug_printf("    AST Node: REPEAT\n");
       break;
         
-    case WHILE:
+    case stWHILE:
       handle_WHILE(node, args);
+      debug_printf("    AST Node: WHILE\n");
       break;
         
-    case FUNCTIONST:
+    case stFUNCTIONST:
       handle_FUNCTIONST(node, args);
+      debug_printf("    AST Node: FUNCTIONST\n");
       break;
         
-    case RETURN:
+    case stRETURN:
       handle_RETURN(node, args);
+      debug_printf("    AST Node: RETURN\n");
       break;
         
-    case IF:
+    case stIF:
       handle_IF(node, args);
+      debug_printf("    AST Node: IF\n");
       break;
         
-    case ELSE:
+    case stELSE:
       handle_ELSE(node, args);
+      debug_printf("    AST Node: ELSE\n");
       break;
         
-    case ELIF:
+    case stELIF:
       handle_ELIF(node, args);
+      debug_printf("    AST Node: ELIF\n");
       break;
         
     case BINARY:
       handle_BINARY(node, args);
+      debug_printf("    AST Node: BINARY\n");
       break;
         
     case UNARY:
       handle_UNARY(node, args);
+      debug_printf("    AST Node: UNARY\n");
       break;
         
     case FUNCTIONEX:
       handle_FUNCTIONEX(node, args);
+      debug_printf("    AST Node: FUNCTIONEX\n");
       break;
         
     case SIMPLE:
       handle_SIMPLE(node, args);
+      debug_printf("    AST Node: SIMPLE\n");
       break;
         
     case CONS:
       handle_CONS(node, args);
+      debug_printf("    AST Node: CONS\n");
       break;
         
     case PAREN: 
       handle_PAREN(node, args);
+      debug_printf("    AST Node: PAREN\n");
       break;
         
     case INDEX:
       handle_INDEX(node, args);
+      debug_printf("    AST Node: INDEX\n");
       break;
         
     case APARAM:
       handle_APARAM(node, args);
+      debug_printf("    AST Node: APARAM\n");
       break;
         
     case MPARAM:
       handle_MPARAM(node, args);
+      debug_printf("    AST Node: MPARAM\n");
       break;
         
     default:
+      yyerror("ast node type does not exist?\n");
       break;
     }
 }

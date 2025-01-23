@@ -37,7 +37,8 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %token STRING
 
 /* precedence is in ascending order */
-%left STMT
+%nonassoc BLOCK
+%nonassoc STMT
 %left IF
 %left WHILE
 %left REPEAT
@@ -45,8 +46,11 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %nonassoc THEN
 %nonassoc ELSE
 %nonassoc ELIF
-%left ID
+
+%nonassoc ID
+
 %nonassoc NUMBER
+
 %nonassoc ASSIGN 
 %right '='
 %nonassoc REL_OP 
@@ -81,6 +85,7 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 %type<s_value> ID
 %type<i_value> REL_OP 
 %type<i_value> MUL_OP
+%type<s_value> STRING
 
 /* to be implemented 
 %type<s_value> STRING 
@@ -91,10 +96,10 @@ IF IS OF OR AND END NOT ELSE THEN TYPE ARRAY YYBEGIN ElIF UNTIL VALUE WHILE REPE
 //TODO: add a r_stmt_list node
 /* grammar rules */
 %%
-PROGRAM : ID {init_symtab($1); root = make_syntax_node(PROGRAM, NULL);} ';' block {root->data.fmt.program.block = $4;}'.' {debug_printf("end of file reached!\n");} 
+PROGRAM : ID {init_symtab($1); root = make_syntax_node(fPROGRAM, NULL);} ';' block {root->data.fmt.program.block = $4;}'.' {debug_printf("end of file reached!\n");} 
 
 /* */
-block : type_dec_list YYBEGIN r_stmt_list END ID {$$ = make_syntax_node(BLOCK, $3, NULL, $5);}
+block : type_dec_list YYBEGIN r_stmt_list END ID {$$ = make_syntax_node(fBLOCK, $3, NULL, $5);} %prec BLOCK
 
 type_dec_list : type_dec
     | type_dec_list ',' type_dec
@@ -113,26 +118,26 @@ var_dec_list : var_dec {$$ = $1;}
 var_dec : ID {$$ = make_id_info($1, ik_VAR, NULL, NULL, 27, 27);}
 ;
 
-r_stmt_list : stmt_list {$$ = reverse($1);} %prec STMT
+r_stmt_list : stmt_list {$$ = reverse($1); debug_printf("reversing stmt_list!\n");}
 
 /*to be reversed*/
-stmt_list : stmt 
-    | stmt_list stmt {$2->next_node = $1; $$ = $2;}
+stmt_list : stmt {$$ = $1; debug_printf("I'm not alone!\n");} 
+    | stmt_list stmt {$2->next_node = $1; $$ = $2; debug_printf("I'm so alone\n");}
     ;
 
 /* whenever list returns, call reverse()?*/
-stmt : var ASSIGN expr ';' {$$ = make_syntax_node(ASSIGN, $1, $3);}
-    | IF expr THEN r_stmt_list elif_clause_list else_clause ';'  {$$ = make_syntax_node(IF, $2, $4, $5, $6);}
-    | WHILE expr DO r_stmt_list ';'  {$$ = make_syntax_node(WHILE, $2, $4);}
-    | REPEAT r_stmt_list UNTIL expr ';'  {$$ = make_syntax_node(REPEAT, $2, $4);}
+stmt : var ASSIGN expr {$$ = make_syntax_node(stASSIGN, $1, $3); debug_printf("why AAAAAAAAA\n");}
+    | IF expr THEN r_stmt_list elif_clause_list else_clause  {$$ = make_syntax_node(stIF, $2, $4, $5, $6);}
+    | WHILE expr DO r_stmt_list  {$$ = make_syntax_node(stWHILE, $2, $4);}
+    | REPEAT r_stmt_list UNTIL expr  {$$ = make_syntax_node(stREPEAT, $2, $4);}
     /*
     | FUNCTION ID '(' param_list ')' ':' type_desc  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO!
     | PROCEDURE ID '(' param_list ')'  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
     | FUNCTION ID '(' param_list ')' ':' type_desc block  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
     | PROCEDURE ID '(' param_list ')' block  {$$ = make_syntax_node(FUNCTIONST, 5);}//TODO
     */
-    | RETURN expr ';'  {$$ = make_syntax_node(RETURN, $2);}
-    | RETURN ';'  {$$ = make_syntax_node(RETURN, NULL);}
+    | RETURN expr  {$$ = make_syntax_node(stRETURN, $2);}
+    | RETURN   {$$ = make_syntax_node(stRETURN, NULL);}
     ;
 
 
@@ -140,10 +145,10 @@ elif_clause_list : {$$ = NULL;}
     | elif_clause_list elif_clause {$2->next_node = $1; $$ = $2;}
     ;
 
-elif_clause : ELIF expr THEN r_stmt_list {$$ = make_syntax_node(ELIF, $2, $4);} 
+elif_clause : ELIF expr THEN r_stmt_list {$$ = make_syntax_node(stELIF, $2, $4);} 
 
 else_clause : {$$ = NULL;} %prec THEN
-    | ELSE r_stmt_list {$$ = make_syntax_node(ELSE, $2);} 
+    | ELSE r_stmt_list {$$ = make_syntax_node(stELSE, $2);} 
     ;
 
 /* */
