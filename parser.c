@@ -1246,22 +1246,22 @@ case 11:
 break;
 case 12:
 #line 121 "atl.y"
-	{yyval.syntax_node = reverse(yystack.l_mark[0].syntax_node); debug_printf("reversing stmt_list!\n");}
+	{yyval.syntax_node = reverse(yystack.l_mark[0].syntax_node);}
 #line 1251 "y.tab.c"
 break;
 case 13:
 #line 124 "atl.y"
-	{yyval.syntax_node = yystack.l_mark[0].syntax_node; debug_printf("I'm not alone!\n");}
+	{yyval.syntax_node = yystack.l_mark[0].syntax_node;}
 #line 1256 "y.tab.c"
 break;
 case 14:
 #line 125 "atl.y"
-	{yystack.l_mark[0].syntax_node->next_node = yystack.l_mark[-1].syntax_node; yyval.syntax_node = yystack.l_mark[0].syntax_node; debug_printf("I'm so alone\n");}
+	{yystack.l_mark[0].syntax_node->next_node = yystack.l_mark[-1].syntax_node; yyval.syntax_node = yystack.l_mark[0].syntax_node;}
 #line 1261 "y.tab.c"
 break;
 case 15:
 #line 129 "atl.y"
-	{yyval.syntax_node = make_syntax_node(stASSIGN, yystack.l_mark[-2].id_value, yystack.l_mark[0].syntax_node); debug_printf("why AAAAAAAAA\n");}
+	{yyval.syntax_node = make_syntax_node(stASSIGN, yystack.l_mark[-2].id_value, yystack.l_mark[0].syntax_node);}
 #line 1266 "y.tab.c"
 break;
 case 16:

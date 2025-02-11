@@ -190,10 +190,20 @@ void handle_ELIF(syntax_node_ptr node, va_list args) {
 }
 
 void handle_BINARY(syntax_node_ptr node, va_list args) {
+  
+  
   node->data.expr.binary.op = va_arg(args, int);
   node->data.expr.binary.expr1 = va_arg(args, syntax_node_ptr);
   node->data.expr.binary.expr2 = va_arg(args, syntax_node_ptr);
   node->data.expr.binary.result = va_arg(args, type_desc_ptr);
+
+  if(node->data.expr.binary.expr1 != node->data.expr.binary.expr2) {
+    yyerror("expression types do not match\n");
+  }
+
+
+
+
 }
 
 void handle_UNARY(syntax_node_ptr node, va_list args) {
@@ -230,3 +240,5 @@ void handle_MPARAM(syntax_node_ptr node, va_list args) {
   //tentative
   node->data.expr.mparam.aparam = va_arg(args, syntax_node_ptr);
 }
+
+

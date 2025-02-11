@@ -36,13 +36,13 @@ parser.o: definitions.h globals.h
 scanner.o: y.tab.h
 util.o: definitions.h globals.h
 main.o: definitions.h globals.h
-#idk if symbol_structs will depend on globals/defs for now.
+#idk if symbol_structs will depend on globals/defs
 #leaving it for now!
 symbol_structs.o: symbol_structs.h definitions.h globals.h
 #will including symbol_table or symbol_struct
 #multiple times cause errors?
 #ex: definitions.h includes symbol_structs already
 #will double check and adjust later.
-symbol_table.o: definitions.h symbol_table.h symbol_structs.h globals.h
-syntax_tree.o: definitions.h symbol_table.h globals.h
+symbol_table.o: definitions.h symbol_structs.h globals.h
+syntax_tree.o: definitions.h globals.h
 kv_tree.o: kv_tree.h

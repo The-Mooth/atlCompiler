@@ -118,15 +118,15 @@ var_dec_list : var_dec {$$ = $1;}
 var_dec : ID {$$ = make_id_info($1, ik_VAR, NULL, NULL, 27, 27);}
 ;
 
-r_stmt_list : stmt_list {$$ = reverse($1); debug_printf("reversing stmt_list!\n");}
+r_stmt_list : stmt_list {$$ = reverse($1);}
 
 /*to be reversed*/
-stmt_list : stmt {$$ = $1; debug_printf("I'm not alone!\n");} 
-    | stmt_list stmt {$2->next_node = $1; $$ = $2; debug_printf("I'm so alone\n");}
+stmt_list : stmt {$$ = $1;} 
+    | stmt_list stmt {$2->next_node = $1; $$ = $2;}
     ;
 
 /* whenever list returns, call reverse()?*/
-stmt : var ASSIGN expr {$$ = make_syntax_node(stASSIGN, $1, $3); debug_printf("why AAAAAAAAA\n");}
+stmt : var ASSIGN expr {$$ = make_syntax_node(stASSIGN, $1, $3);}
     | IF expr THEN r_stmt_list elif_clause_list else_clause  {$$ = make_syntax_node(stIF, $2, $4, $5, $6);}
     | WHILE expr DO r_stmt_list  {$$ = make_syntax_node(stWHILE, $2, $4);}
     | REPEAT r_stmt_list UNTIL expr  {$$ = make_syntax_node(stREPEAT, $2, $4);}

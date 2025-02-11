@@ -19,7 +19,7 @@ int main(int argc, char** argv)
   #endif
 
   int opt;
-  char* asm_output = NULL;
+  char* asm_filename = NULL;
 
   while ((opt = getopt(argc, argv, "do:")) != -1) 
   {
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
         debug = TRUE;       
       
       case 'o':
-        asm_output = optarg;
+        asm_filename = optarg;
         break;
 
       default:
@@ -59,17 +59,17 @@ int main(int argc, char** argv)
     }
 
 
-    if (!asm_output) {
-      asm_output = "atl.out";
+    if (!asm_filename) {
+      asm_filename = "atl.out";
     } 
 
-    debug_printf("executable name = %s\n", asm_output);
+    debug_printf("executable name = %s\n", asm_filename);
 
 
-    yyout = fopen(asm_output, "w");
-    if (yyout == NULL) {
+    asm_output = fopen(asm_filename, "w");
+    if (asm_output == NULL) {
       perror("could not open output file");
-      exit(1);
+      exit(1);  
     }
 
     debug_printf("calling parser\n");

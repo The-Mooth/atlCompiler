@@ -5,10 +5,9 @@
 #include <string.h>
 
 #include "symbol_structs.h"
-#include "symbol_table.h"
 #include "syntax_tree.h"
 #include "kv_tree.h"
-
+#include "code_gen.h"
 
 //constants and prototypes. Doesn't require EXTERN, as they reference operations and not values
 
@@ -19,7 +18,7 @@
 //structure prototypes will be in the respective .h files for now.
 //TODO?: restructure header files to not use so many globals?
 
-//function prototypes
+//public function prototypes only, structs will remain in related header files.
 
   //symbol_structs.c
   type_desc_ptr make_type_desc(type_kind tk_kind, int size, int low, int high, type_desc_ptr arr_type);
@@ -40,7 +39,6 @@
   syntax_node_ptr make_syntax_node(node_type type, ...);
 
   //parser.c
-  
   int yyparse(void);
   #define YYDEBUG 1
 
